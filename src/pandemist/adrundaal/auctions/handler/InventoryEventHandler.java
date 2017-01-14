@@ -17,11 +17,11 @@ import pandemist.adrundaal.auctions.utils.Utils;
 
 public class InventoryEventHandler implements Listener {
 	//Listener for Inventory Closing. Removes from all Shop maps.
-	@EventHandler(priority=EventPriority.HIGH)
+/*	@EventHandler(priority=EventPriority.HIGH)
 	public void onCloseListener(InventoryCloseEvent event) {
 		//	Player eventTriggerer=(Player) event.getPlayer();
 		//	Shop.clearListsFromPlayer(eventTriggerer);
-	}
+	}*/
 	/*
 	*   The Item onclick Handler
 	*   Handels all clicks in a GUI Window
@@ -29,6 +29,7 @@ public class InventoryEventHandler implements Listener {
 	 */
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onClickListener(InventoryClickEvent event) {
+		System.out.println("This happend1");
 		if(!event.getInventory().getTitle().contains(Config.getLang("shop-gui-name"))) {
 			return;
 		}

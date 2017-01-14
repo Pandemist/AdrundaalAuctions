@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="adrundaalauctions-1.0-SNAPSHOT-1">
+    <output-path>$PROJECT_DIR$/out/artifacts/adrundaalauctions_1_0_SNAPSHOT_1</output-path>
+    <root id="archive" name="adrundaalauctions-1.0-SNAPSHOT-1.jar">
+      <element id="file-copy" path="$PROJECT_DIR$/config.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/plugin.yml" />
+      <element id="module-output" name="AdrundaalAuctions" />
+    </root>
+  </artifact>
+</component>

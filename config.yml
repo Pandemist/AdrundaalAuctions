@@ -1,0 +1,11 @@
+name: 'AdrundaalAuctions'
+version: '0.1'
+main: 'pandemist.adrundaal.auctions.AdrundaalAuctions'
+desc: 'Auctions plugin'
+authors: ['Pandemist']
+depend: ['Vault']
+
+commands:
+  aa:
+    description: Opens the Adrundaal Auctions GUI.
+    aliases: [adrundaalauction, adrundaalauctions,ah]

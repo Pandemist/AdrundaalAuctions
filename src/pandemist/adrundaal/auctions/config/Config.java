@@ -71,7 +71,7 @@ public class Config {
 				config.getStringList("items."+key+".lore"),
 				null, null);
 		//	System.out.println(type);
-		System.out.println(config.getString("items."+key+".name"));
+	//	System.out.println(config.getString("items."+key+".name"));
 		//	System.out.println(config.getStringList("items."+key+".lore"));
 		return i;
 	}

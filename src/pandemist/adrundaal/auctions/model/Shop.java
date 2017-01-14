@@ -29,26 +29,44 @@ public class Shop {
 	*   Add, Remove, Get, isIn and update Methodes
 	 */
 	public static void addToTypeMap(Player player, ShopType type) {
+		if(isPlayerInTypeMap(player)) {
+			removeFromTypeMap(player);
+		}
 		TypeMap.put(player, type);
 	}
 
 	public static void addToFilterMap(Player player, Filter filter) {
+		if(isPlayerInFilterMap(player)) {
+			removeFromFilterMap(player);
+		}
 		FilterMap.put(player, filter);
 	}
 
 	public static void addToInvMap(Player player, ArrayList<String> idList) {
+		if (isPlayerInInvMap(player)) {
+			removeFromInvMap(player);
+		}
 		InvMap.put(player, idList);
 	}
 
 	public static void addToPageList(Player player, int actualPage, int maxPage) {
+		if (isPlayerInPageList(player)) {
+			removeFromPageList(player);
+		}
 		pageList.add(new Page(player, actualPage, maxPage));
 	}
 
 	public static void addToSelectedItemMap(Player player, String indivID) {
+		if(isPlayerInSelectedItemMap(player)) {
+			removeFromSelectedItemMap(player);
+		}
 		SelectedItemMap.put(player, indivID);
 	}
 
 	public static void addToBidValueMap(Player player, int value) {
+		if(isPlayerInBidValueMap(player)) {
+			removeFromBidValueMap(player);
+		}
 		BidValueMap.put(player, value);
 	}
 
@@ -65,9 +83,11 @@ public class Shop {
 	}
 
 	public static void removeFromPageList(Player player) {
-		for(Page p : pageList) {
-			if(p.getPlayer().equals(player)) {
-				pageList.remove(p);
+		if(isPlayerInPageList(player)) {
+			for (int i=0;i<pageList.size();i++) {
+				if (pageList.get(i).getPlayer().equals(player)) {
+					pageList.remove(pageList.get(i));
+				}
 			}
 		}
 	}
@@ -191,18 +211,22 @@ public class Shop {
 	 */
 	public static Inventory setupCollectAble(Inventory inv) {
 		//Add Menu Items to the lower Bar 45-53
+		inv.setItem(45, Config.getOptionItem("menu.myOverview"));
+		inv.setItem(47, Config.getOptionItem("menu.sellList"));
 		inv.setItem(48, Config.getOptionItem("menu.pageBack"));
-		inv.setItem(49, Config.getOptionItem("menu.collectAll"));
+		inv.setItem(49, Config.getOptionItem("menu.refresh"));
 		inv.setItem(50, Config.getOptionItem("menu.pageNext"));
-		inv.setItem(53, Config.getOptionItem("menu.back"));
+		inv.setItem(51, Config.getOptionItem("menu.bidList"));
 		return inv;
 	}
 
 	public static Inventory setupMyOverview(Inventory inv) {
+		inv.setItem(45, Config.getOptionItem("menu.collect"));
+		inv.setItem(47, Config.getOptionItem("menu.sellList"));
 		inv.setItem(48, Config.getOptionItem("menu.pageBack"));
 		inv.setItem(49, Config.getOptionItem("menu.refresh"));
 		inv.setItem(50, Config.getOptionItem("menu.pageNext"));
-		inv.setItem(53, Config.getOptionItem("menu.back"));
+		inv.setItem(51, Config.getOptionItem("menu.bidList"));
 		return inv;
 	}
 

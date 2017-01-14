@@ -29,7 +29,7 @@ public class InventoryEventHandler implements Listener {
 	 */
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onClickListener(InventoryClickEvent event) {
-		System.out.println("This happend1");
+		System.out.println(event.getRawSlot());
 		if(!event.getInventory().getTitle().contains(Config.getLang("shop-gui-name"))) {
 			return;
 		}
@@ -39,6 +39,9 @@ public class InventoryEventHandler implements Listener {
 		ItemStack clickedItem=event.getCurrentItem();
 		event.setCancelled(true);
 		System.out.println("~~~~"+clickedItem);
+		if(clickedItem == null) {
+			return;
+		}
 		if(clickedItem.getType().equals(Material.AIR)
 				||(clickedItem.equals(Config.getOptionItem("blocked-item")))) {
 			return;
@@ -155,6 +158,7 @@ public class InventoryEventHandler implements Listener {
 		}else/* if(clickedItem.equals(Config.getOptionItem(""))) {
 			//TOsDO: SOMETHING
 		}else*/{
+			System.out.println("No Special Item Selcted");
 			ExtendetItemHandler.mainItemClickHandling(eventTriggerer, slot);
 		}
 	}

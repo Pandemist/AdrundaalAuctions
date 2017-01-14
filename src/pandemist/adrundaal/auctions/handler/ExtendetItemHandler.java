@@ -91,6 +91,7 @@ public class ExtendetItemHandler {
 		for(; i<maxItemValPerPage&&i<matchingSellItems.size()&&j<=45; i++, j++) {
 			inv=Shop.prepareItem(matchingSellItems.get(i), i, inv);
 			keyList.add(matchingSellItems.get(i).getIndividualID());
+			//TODO: DOSE THIS REALY HAPPEND?
 		}
 		Shop.removeFromInvMap(player);
 		Shop.addToInvMap(player, keyList);
@@ -213,9 +214,19 @@ public class ExtendetItemHandler {
 		Shop.closeLastView(player);
 		Inventory inv=Bukkit.createInventory(null, 9, Config.getLang("shop-gui-name"));
 		inv=Shop.setupMyOverviewConfirm(inv);
-		ItemStack is=ItemUtils.getActualBidItemByPlayer(player).getItem();
-		if(is==null) {
-			is=ItemUtils.getActualSellItemByPlayer(player).getItem();
+		BidItem bItem=ItemUtils.getActualBidItemByPlayer(player);
+		System.out.println(bItem);
+		ItemStack is;
+		if (bItem != null) {
+			is = bItem.getItem();
+		}else{
+			SellItem sItem = ItemUtils.getActualSellItemByPlayer(player);
+			System.out.println(sItem);
+			if(sItem == null) {
+				return;
+			}else{
+				is = sItem.getItem();
+			}
 		}
 		ItemMeta im=is.getItemMeta();
 		im.setLore(null);
@@ -246,7 +257,7 @@ public class ExtendetItemHandler {
 	public static void goPageBack(Player player) {
 		if(Shop.isPlayerInPageList(player)) {
 			int page=Shop.getPageByName(player);
-			if(page<1) {
+			if(page>1) {
 				Shop.updatePageByName(player, page--);
 				openShopByType(player);
 			}
@@ -260,7 +271,7 @@ public class ExtendetItemHandler {
 	public static void goPageNext(Player player) {
 		if(Shop.isPlayerInPageList(player)) {
 			int page=Shop.getPageByName(player);
-			if(page>=Shop.getMaxPageByName(player)) {
+			if(page<Shop.getMaxPageByName(player)) {
 				Shop.updatePageByName(player, page++);
 				openShopByType(player);
 			}
@@ -473,15 +484,20 @@ public class ExtendetItemHandler {
 		if(!Shop.isPlayerInTypeMap(player)) {
 			return;
 		}
+		ArrayList<String> a = Shop.getInvByName(player);
+		for(String s : a) {
+			System.out.println(s);
+		}
+		Shop.addToSelectedItemMap(player, Shop.getInvByName(player).get(slot));
 		ShopType st=Shop.getTypeByName(player);
 		if(st.equals(ShopType.SELL)) {
 			itemClickHandlingSell(player, slot);
 		}else if(st.equals(ShopType.BID)) {
 			itemClickHandlingBid(player, slot);
 		}else if(st.equals(ShopType.COLLECT)) {
-			itemClickHandlingCollect(player);
+			itemClickHandlingCollect(player, slot);
 		}else if(st.equals(ShopType.MY)) {
-			itemClickHandlingMy(player, slot);
+			itemClickHandlingMy(player);
 		}
 	}
 	/*
@@ -526,7 +542,14 @@ public class ExtendetItemHandler {
 	/*
 	*   Opens the Confirm Dialog form the Items in the Inserted Overview
 	 */
-	public static void itemClickHandlingMy(Player player, int slot) {
+	public static void itemClickHandlingMy(Player player) {
+		openMyOverviewConfirmView(player);
+
+	}
+	/*
+	*   Opens the Confirm Dialog for My inserted Overview
+	 */
+	public static void itemClickHandlingCollect(Player player, int slot) {
 		if(!Utils.isInvFull(player)) {
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "inventory-full");
 			return;
@@ -545,12 +568,6 @@ public class ExtendetItemHandler {
 		player.getInventory().addItem(itemToReturn);
 		ItemConfig.refreshLists();
 		openShopByType(player);
-	}
-	/*
-	*   Opens the Confirm Dialog for My inserted Overview
-	 */
-	public static void itemClickHandlingCollect(Player player) {
-		openMyOverviewConfirmView(player);
 	}
 
 	/*

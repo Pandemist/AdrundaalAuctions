@@ -155,15 +155,16 @@ public class CommandBidSell {
 		String indivID=player.getUniqueId().toString()+"-"+TimeUtils.getNowTime();
 		if(args[0].equalsIgnoreCase("Bid")) {
 			indivID="b-"+indivID;
-			BidItem bi=new BidItem(TimeUtils.convertToMill(Config.getOptionValue("config.bid-time")), Integer.parseInt(args[1]), iss, indivID, ((Player) sender).getName(), ((Player) sender).getUniqueId());
+			BidItem bi=new BidItem(TimeUtils.convertToMill(Config.getOptionValue("config.bid-time")), Integer.parseInt(args[1]), iss, indivID, player.getName(), ((Player) sender).getUniqueId());
 			AdrundaalAuctions.bidItemList.add(bi);
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "successfully-inserted", bi.getItem());
 		}else{
 			indivID="s-"+indivID;
-			SellItem si=new SellItem(TimeUtils.convertToMill(Config.getOptionValue("config.bid-time")), Integer.parseInt(args[1]), iss, indivID, ((Player) sender).getName(), ((Player) sender).getUniqueId());
+			SellItem si=new SellItem(TimeUtils.convertToMill(Config.getOptionValue("config.bid-time")), Integer.parseInt(args[1]), iss, indivID, player.getName(), ((Player) sender).getUniqueId());
 			AdrundaalAuctions.sellItemList.add(si);
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "successfully-inserted", si.getItem());
 		}
+		System.out.println(indivID);
 		ItemConfig.refreshLists();
 
 //Take the Items, that are now insertet in the Auctionhouse

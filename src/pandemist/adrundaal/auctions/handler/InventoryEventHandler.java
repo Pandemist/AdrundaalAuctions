@@ -159,7 +159,7 @@ public class InventoryEventHandler implements Listener {
 			//TOsDO: SOMETHING
 		}else*/{
 			System.out.println("No Special Item Selcted");
-			ExtendetItemHandler.mainItemClickHandling(eventTriggerer, slot);
+			ExtendetItemHandler.mainItemClickHandling(eventTriggerer, event);
 		}
 	}
 }

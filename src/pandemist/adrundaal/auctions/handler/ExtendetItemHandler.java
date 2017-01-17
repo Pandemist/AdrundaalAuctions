@@ -3,6 +3,7 @@ package pandemist.adrundaal.auctions.handler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -228,7 +229,8 @@ public class ExtendetItemHandler {
 				is = sItem.getItem();
 			}
 		}
-		ItemMeta im=is.getItemMeta();
+		ItemStack iss = is.clone();
+		ItemMeta im=iss.getItemMeta();
 		im.setLore(null);
 		List<String> lore=Config.getStringList("items.myOverviewConfirm-item-lore");
 		ArrayList<String> l=new ArrayList<String>();
@@ -236,8 +238,8 @@ public class ExtendetItemHandler {
 			l.add(ItemUtils.color(loreLine));
 		}
 		im.setLore(l);
-		is.setItemMeta(im);
-		inv.setItem(4, is);
+		iss.setItemMeta(im);
+		inv.setItem(4, iss);
 		player.openInventory(inv);
 	}
 	/*
@@ -467,33 +469,48 @@ public class ExtendetItemHandler {
 			return;
 		}
 		String itemID=Shop.getSelectedItemByName(player);
-		CollectableItem cItem=ItemUtils.getCollectItemByUID(itemID);
-		if(cItem==null) {
-			player.sendMessage(Config.getLang("item-not-found"));
-			return;
+		System.out.println(itemID);
+		ItemStack i;
+		BidItem bItem = ItemUtils.getBidItemByUID(itemID);
+		SellItem sItem = ItemUtils.getSellItemByUID(itemID);
+		if(bItem!=null) {
+			System.out.println("bItem: "+bItem.getItem().getType());
+			i = bItem.getItem();
+		}else{
+			if(sItem!=null) {
+				System.out.println("sItem: "+sItem.getItem().getType());
+				i = sItem.getItem();
+			}else{
+				player.sendMessage(Config.getLang("item-not-found"));
+				return;
+			}
 		}
-		player.getInventory().addItem(cItem.getItem());
-		collectItemList.remove(cItem);
+		player.getInventory().addItem(i);
+		if (sItem!=null) {
+			System.out.println(sItem.getItem().getType());
+			ItemUtils.removeFromSellList(sItem);
+		//	sellItemList.remove(sItem);
+		}else{
+			ItemUtils.removeFromBidList(bItem);
+		//	bidItemList.remove(bItem);
+		}
 		ItemConfig.refreshLists();
 		openShopByType(player);
 	}
 	/*
 	*   Handels the click on no special menu item. The methode calls the Submethodes debend on the Players ShopType.
 	 */
-	public static void mainItemClickHandling(Player player, int slot) {
+	public static void mainItemClickHandling(Player player, InventoryClickEvent e) {
+		int slot = e.getRawSlot();
 		if(!Shop.isPlayerInTypeMap(player)) {
 			return;
-		}
-		ArrayList<String> a = Shop.getInvByName(player);
-		for(String s : a) {
-			System.out.println(s);
 		}
 		Shop.addToSelectedItemMap(player, Shop.getInvByName(player).get(slot));
 		ShopType st=Shop.getTypeByName(player);
 		if(st.equals(ShopType.SELL)) {
-			itemClickHandlingSell(player, slot);
+			itemClickHandlingSell(player, e);
 		}else if(st.equals(ShopType.BID)) {
-			itemClickHandlingBid(player, slot);
+			itemClickHandlingBid(player, e);
 		}else if(st.equals(ShopType.COLLECT)) {
 			itemClickHandlingCollect(player, slot);
 		}else if(st.equals(ShopType.MY)) {
@@ -503,7 +520,8 @@ public class ExtendetItemHandler {
 	/*
 	*   Handels the Click in the Sellview. If the player not owns the clicked Item, the confirm dialog will be opened
 	 */
-	public static void itemClickHandlingSell(Player player, int slot) {
+	public static void itemClickHandlingSell(Player player, InventoryClickEvent event) {
+		int slot = event.getRawSlot();
 		String itemID=Shop.getInvByName(player).get(slot);
 		SellItem sItem=ItemUtils.getSellItemByUID(itemID);
 		if(sItem==null) {
@@ -511,7 +529,7 @@ public class ExtendetItemHandler {
 			return;
 		}
 		if(sItem.getSellerUUID().equals(player.getUniqueId())) {
-			itemIsOwnItem(player, slot);
+			itemIsOwnItem(player, event);
 			return;
 		}
 		Shop.addToSelectedItemMap(player, sItem.getIndividualID());
@@ -520,7 +538,8 @@ public class ExtendetItemHandler {
 	/*
 	*   handels the Click in the Bidview. If the Player, is not owner, or Topbidder, the confirm Dialog will be opened
 	 */
-	public static void itemClickHandlingBid(Player player, int slot) {
+	public static void itemClickHandlingBid(Player player, InventoryClickEvent event) {
+		int slot = event.getRawSlot();
 		String itemID=Shop.getInvByName(player).get(slot);
 		BidItem bItem=ItemUtils.getBidItemByUID(itemID);
 		if(bItem==null) {
@@ -528,11 +547,11 @@ public class ExtendetItemHandler {
 			return;
 		}
 		if(bItem.getSellerUUID().equals(player.getUniqueId())||bItem.getTopBidderUUID().equals(player.getUniqueId())) {
-			itemIsOwnItem(player, slot);
+			itemIsOwnItem(player, event);
 			return;
 		}
 		if(Shop.isIdInSelecteditemMap(itemID)) {
-			itemIsOwnItem(player, slot);
+			itemIsOwnItem(player, event);
 			return;
 		}
 		Shop.addToBidValueMap(player, bItem.getOffer());
@@ -573,11 +592,12 @@ public class ExtendetItemHandler {
 	/*
 	*   Replace a Item for 3 Seconds with a Blocksignal, that you can see that you are not allowed to click
 	 */
-	public static void itemIsOwnItem(Player player, int slot) {
+	public static void itemIsOwnItem(Player player, InventoryClickEvent event) {
+		int slot = event.getRawSlot();
+		Inventory inv = event.getInventory();
 		System.out.println(slot);
-		ItemStack item=player.getInventory().getItem(slot);
+		ItemStack item=inv.getItem(slot);
 		ItemStack is=Config.getOptionItem("blocked-item");
-		Inventory inv=player.getInventory();
 		inv.setItem(slot, is);
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			public void run() {

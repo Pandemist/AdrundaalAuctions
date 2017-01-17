@@ -219,4 +219,25 @@ public class ItemUtils {
 			}
 		}
 	}
+	public static void removeFromBidList(BidItem bItem) {
+		for(int i=0;i<bidItemList.size();i++) {
+			if(bidItemList.get(i).getIndividualID().equals(bItem.getIndividualID())) {
+				bidItemList.remove(i);
+			}
+		}
+	}
+	public static void removeFromSellList(SellItem sItem) {
+		for(int i=0;i<sellItemList.size();i++) {
+			if(sellItemList.get(i).getIndividualID().equals(sItem.getIndividualID())) {
+				sellItemList.remove(i);
+			}
+		}
+	}
+	public static void removeFromCollectList(CollectableItem cItem) {
+		for(int i=0;i<collectItemList.size();i++) {
+			if(collectItemList.get(i).getIndividualID().equals(cItem.getIndividualID())) {
+				collectItemList.remove(i);
+			}
+		}
+	}
 }

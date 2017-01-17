@@ -237,7 +237,7 @@ public class Shop {
 		inv.setItem(49, Config.getOptionItem("menu.refresh"));
 		inv.setItem(50, Config.getOptionItem("menu.pageNext"));
 		inv.setItem(52, Config.getOptionItem("menu.bidList"));
-		inv.setItem(53, Config.getOptionItem("menu.back"));
+	//	inv.setItem(53, Config.getOptionItem("menu.back"));
 		return inv;
 	}
 
@@ -266,7 +266,7 @@ public class Shop {
 		inv.setItem(49, Config.getOptionItem("menu.refresh"));
 		inv.setItem(50, Config.getOptionItem("menu.pageNext"));
 		inv.setItem(52, Config.getOptionItem("menu.sellList"));
-		inv.setItem(53, Config.getOptionItem("menu.back"));
+	//	inv.setItem(53, Config.getOptionItem("menu.back"));
 		return inv;
 	}
 
@@ -295,7 +295,7 @@ public class Shop {
 
 		inv.setItem(45, Config.getOptionItem("menu.myOverview"));
 		inv.setItem(46, Config.getOptionItem("menu.collect"));
-		inv.setItem(49, Config.getOptionItem("menu.refresh"));
+	//	inv.setItem(49, Config.getOptionItem("menu.refresh"));
 		return inv;
 	}
 
@@ -400,10 +400,10 @@ public class Shop {
 		List<String> lore=Config.getStringList("items.bid-item-lore");
 		ArrayList<String> l=new ArrayList<String>();
 		for(String loreLine : lore) {
-			loreLine.replaceAll("%SELLER%", bItem.getSellerName());
-			loreLine.replaceAll("%TOP_BIDDER%", bItem.getTopBidderName());
-			loreLine.replaceAll("%BID%", bItem.getOffer()+"");
-			loreLine.replaceAll("%LEFT%", TimeUtils.convertToTime(bItem.getTimeExpire()));
+			loreLine.replaceAll("%SELLER%", bItem.getSellerName()).replaceAll("%SELLER%", bItem.getSellerName());
+			loreLine.replaceAll("%TOP_BIDDER%", bItem.getTopBidderName()).replaceAll("%TOP_BIDDER%", bItem.getTopBidderName());
+			loreLine.replaceAll("%BID%", bItem.getOffer()+"").replaceAll("%BID%", bItem.getOffer()+"");
+			loreLine.replaceAll("%LEFT%", TimeUtils.convertToTime(bItem.getTimeExpire())).replaceAll("%LEFT%", TimeUtils.convertToTime(bItem.getTimeExpire()));
 			l.add(ItemUtils.color(loreLine));
 		}
 		im.setLore(l);

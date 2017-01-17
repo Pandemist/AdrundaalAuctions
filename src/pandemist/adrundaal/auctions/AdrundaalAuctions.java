@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import pandemist.adrundaal.auctions.commands.*;

@@ -242,8 +242,14 @@ public class Shop {
     }
 
     public static Inventory setupSellConfirmView(Inventory inv) {
+        inv.setItem(0, Config.getOptionItem("dialog.confirm"));
+        inv.setItem(1, Config.getOptionItem("dialog.confirm"));
+        inv.setItem(2, Config.getOptionItem("dialog.confirm"));
         inv.setItem(3, Config.getOptionItem("dialog.confirm"));
         inv.setItem(5, Config.getOptionItem("dialog.abort"));
+        inv.setItem(6, Config.getOptionItem("dialog.abort"));
+        inv.setItem(7, Config.getOptionItem("dialog.abort"));
+        inv.setItem(8, Config.getOptionItem("dialog.abort"));
         return inv;
     }
 

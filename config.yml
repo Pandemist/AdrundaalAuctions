@@ -30,6 +30,8 @@ config:
   bid-time: 7d
   sell-time: 7d
   full-expire-time: 10d
+  #Select if the Lore of an inserted Item schould showed, when the item is Displayed in the Plugin
+  has-normal-lore-in-Views: true
   default-shop-view: 'FILTER'
   default-shop-filter: 'Filter.None'
 messages:

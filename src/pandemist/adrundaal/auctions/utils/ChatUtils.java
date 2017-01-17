@@ -29,8 +29,8 @@ public class ChatUtils {
 			System.out.println(is.getType()+"-"+is.getAmount());
 			if(is!=null) {
 				System.out.println(message);
-				message.replaceAll("%Amout%", is.getAmount()+"");
-				message.replaceAll("%Item%", is.getType()+"");
+				message.replaceAll("%Amout%", is.getAmount()+"").replaceAll("%amout%", is.getAmount()+"");
+				message.replaceAll("%Item%", is.getType()+"").replaceAll("%item%", is.getType()+"");
 			}
 			String praefix=Config.getLang("chat-praefix");
 			player.sendMessage(ItemUtils.color(praefix+" "+message));

@@ -240,4 +240,8 @@ public class ItemUtils {
 			}
 		}
 	}
+	public static String getDisplayNameIfNotNull(ItemStack iStack) {
+		String s = iStack.getItemMeta().getDisplayName();
+		return (s!=null)?s:"";
+	}
 }

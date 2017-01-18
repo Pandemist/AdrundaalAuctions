@@ -105,7 +105,9 @@ public class EcoUtils {
 	private static int itemGetMoney(Player player) {
 		int money=0;
 		for(ItemStack stack : player.getInventory()) {
-			if(isNotValid(stack)) continue;
+			if(!isValid(stack)) {
+				continue;
+			}
 			money+=stack.getAmount();
 		}
 		System.out.println(player.getDisplayName()+" hat Geld: "+money);
@@ -121,7 +123,7 @@ public class EcoUtils {
 		ItemStack[] contents=player.getInventory().getContents();
 		int taken=0;
 		for(int i=0; taken<=amount&&i<contents.length; ++i) {
-			if(contents[i]==null||EcoUtils.isNotValid(contents[i])) continue;
+			if(contents[i]==null||!EcoUtils.isValid(contents[i])) continue;
 			if(contents[i].getAmount()>amount-taken) {
 				contents[i].setAmount(contents[i].getAmount()-(amount-taken));
 				taken=amount;
@@ -160,24 +162,26 @@ public class EcoUtils {
 	/*
 	*   Private help Methode. Tests if found itemStack is the Money Item
 	 */
-	private static boolean isNotValid(ItemStack stack) {
-		System.out.println(stack.getType());
+	private static boolean isValid(ItemStack stack) {
 		if (stack==null) {
-			System.out.println("Stack is null");
 			return false;
 		}
-		if (stack.getType()!=ItemUtils.getMaterialbyId(Config.getOptionValue("money-item.type"))) {
+		System.out.println(stack.getType());
+	//	System.out.println(ItemUtils.getMaterialbyId(Config.getOptionValue("items.money-item.type")));
+		if (!stack.getType().equals(ItemUtils.getMaterialbyId(Config.getOptionValue("items.money-item.type")))) {
 			System.out.println("Stack type passt nicht");
 			return false;
 		}
-		if(!Config.getOptionValue("money-item.name").isEmpty()) {
-			if(!stack.getItemMeta().getDisplayName().equals(Config.getOptionValue("money-item.name"))) {
+		System.out.println(Config.getOptionValue("items.money-item.name"));
+		if(!Config.getOptionValue("items.money-item.name").equals("")) {
+			if(!ItemUtils.getDisplayNameIfNotNull(stack).equals(Config.getOptionValue("items.money-item.name"))) {
 				System.out.println("Stack name passt nicht");
 				return false;
 			}
 		}
-		if (!Config.getStringList("money-item.lore").isEmpty()) {
-			if (!stack.getItemMeta().getDisplayName().equals(Config.getStringList("money.lore"))) {
+		System.out.println(Config.getStringList("items.money-item.lore"));
+		if (!Config.getStringList("items.money-item.lore").equals("")) {
+			if (!Utils.isEqual(stack.getItemMeta().getLore(),Config.getStringList("items.money.lore"))) {
 				System.out.println("Stack lore passt nicht");
 				return false;
 			}

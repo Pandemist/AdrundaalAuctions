@@ -8,7 +8,9 @@ import org.bukkit.inventory.ItemStack;
 
 import pandemist.adrundaal.auctions.model.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 import static pandemist.adrundaal.auctions.AdrundaalAuctions.*;
@@ -121,5 +123,23 @@ public class Utils {
 				sellItemList.remove(c);
 			}
 		}
+	}
+	public static boolean isEqual(List<String> list1, List<String> list2) {
+		if(list1==null||list2==null) {
+			return false;
+		}
+		if (list1.isEmpty()&&list2.isEmpty()) {
+			return true;
+
+		}
+		if(list1.size()!=list2.size()) {
+			return false;
+		}
+		for(int i=0;i<list1.size();i++) {
+			if(list1.get(i).equals(list2.get(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

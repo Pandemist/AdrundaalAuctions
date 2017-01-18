@@ -19,12 +19,18 @@ import pandemist.adrundaal.auctions.utils.EcoUtils;
 
 public class AdrundaalAuctions extends JavaPlugin {
 	public static boolean itemMoneyUse;
+	private static AdrundaalAuctions instance;
 	public static ArrayList<SellItem> sellItemList = new ArrayList<SellItem>();
 	public static ArrayList<BidItem> bidItemList = new ArrayList<BidItem>();
 	public static ArrayList<CollectableItem> collectItemList = new ArrayList<CollectableItem>();
 
+	public static AdrundaalAuctions getInstance() {
+		return instance;
+	}
+
 	public void onEnable() {
 		super.onEnable();
+		instance = this;
 		Bukkit.getServer().getPluginManager().registerEvents(new InventoryEventHandler(), this);
 		this.getConfig().options().copyDefaults(true);
 		this.saveConfig();
@@ -60,6 +66,7 @@ public class AdrundaalAuctions extends JavaPlugin {
 			if(args[0].equalsIgnoreCase("bid")||args[0].equalsIgnoreCase("sell")) {
 				new CommandBidSell(this, sender, args);
 			}else if(args[0].equalsIgnoreCase("reload")) {
+				new CommandBidSell(this, sender, args);
 				new CommandReload(this, sender, args);
 			}else{
 				new CommandHelp(this, sender, args);

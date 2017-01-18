@@ -124,6 +124,18 @@ public class Utils {
 			}
 		}
 	}
+	public static boolean containsListOnlyEmpty(List<String> list1) {
+		if (list1==null) {
+			return true;
+		}
+		boolean returnValue = true;
+		for(String s : list1) {
+			if(!s.equals("")) {
+				returnValue = false;
+			}
+		}
+		return returnValue;
+	}
 	public static boolean isEqual(List<String> list1, List<String> list2) {
 		if(list1==null||list2==null) {
 			return false;

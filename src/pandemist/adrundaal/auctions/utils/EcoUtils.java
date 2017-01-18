@@ -7,6 +7,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -180,7 +181,7 @@ public class EcoUtils {
 			}
 		}
 		System.out.println(Config.getStringList("items.money-item.lore"));
-		if (!Config.getStringList("items.money-item.lore").equals("")) {
+		if (!Utils.containsListOnlyEmpty(Config.getStringList("items.money-item.lore"))) {
 			if (!Utils.isEqual(stack.getItemMeta().getLore(),Config.getStringList("items.money.lore"))) {
 				System.out.println("Stack lore passt nicht");
 				return false;

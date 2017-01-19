@@ -138,7 +138,7 @@ public class ExtendetItemHandler {
 		Inventory inv=Bukkit.createInventory(null, (9), Config.getLang("shop-gui-name"));
 		inv=Shop.setupSellConfirmView(inv);
 		SellItem sItem=ItemUtils.getActualSellItemByPlayer(player);
-		ItemStack is=sItem.getItem();
+		ItemStack is=sItem.getItem().clone();
 		ItemMeta im=is.getItemMeta();
 		im.setLore(null);
 		List<String> lore=Config.getStringList("items.selling-item-lore");
@@ -289,7 +289,7 @@ public class ExtendetItemHandler {
 		ArrayList<CollectableItem> matchingItems=Shop.getMatchingCollectableByPlayerName(player);
 		for(CollectableItem cItem : matchingItems) {
 			if(!Utils.isInvFull(player)) {
-				player.sendMessage(Config.getLang("no-free-space"));
+				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "no-free-space");
 				break;
 			}else{
 				player.getInventory().addItem(cItem.getItem());
@@ -395,23 +395,24 @@ public class ExtendetItemHandler {
 	public static void sellConfirm(Player player) {
 		SellItem sellingItem=ItemUtils.getActualSellItemByPlayer(player);
 		if(sellingItem==null) {
-			player.sendMessage(Config.getLang("item-not-found"));
+			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "item-not-found");
 			return;
 		}
 		if(!EcoUtils.ecoHasMoney(player, sellingItem.getPrice())) {
-			player.sendMessage(Config.getLang("not-enought-money"));
+			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "not-enought-money");
 			return;
 		}
 		EcoUtils.ecoTakeMoney(player, sellingItem.getPrice());
 
 		if(!Utils.isInvFull(player)) {
 			player.getInventory().addItem(sellingItem.getItem());
-			player.sendMessage(Config.getLang("item-has-been-given"));
+			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "item-has-been-given");
 		}else{
 			sellingItem.toCollectble();
-			player.sendMessage(Config.getLang("inventory-full"));
+			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "inventory-full");
 		}
-		sellItemList.remove(sellingItem);
+		ItemUtils.removeFromSellList(sellingItem);
+	//	sellItemList.remove(sellingItem);
 		ItemConfig.refreshLists();
 		Shop.removeFromSelectedItemMap(player);
 		Shop.removeFromInvMap(player);
@@ -424,18 +425,18 @@ public class ExtendetItemHandler {
 	public static void bidConfirm(Player player) {
 		BidItem biddingItem=ItemUtils.getActualBidItemByPlayer(player);
 		if(biddingItem==null) {
-			player.sendMessage(Config.getLang("item-not-found"));
+			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "item-not-found");
 			return;
 		}
 		if(Shop.getBidValueByName(player)>=Config.getInt("max-beginning-bid-price")) {
 			Shop.updateBidValueByName(player, Config.getInt("max-beginning-bid-price"));
 		}
 		if(Shop.getBidValueByName(player)<=biddingItem.getOffer()) {
-			player.sendMessage(Config.getLang("offer-to-low"));
+			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "offer-to-low");
 			return;
 		}
 		if(!EcoUtils.ecoHasMoney(player, Shop.getBidValueByName(player))) {
-			player.sendMessage(Config.getLang("not-enought-money"));
+			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "not-enought-money");
 			return;
 		}
 		EcoUtils.ecoGiveMoney(biddingItem.getTopBidderName(), biddingItem.getTopBidderUUID(), biddingItem.getOffer());
@@ -447,10 +448,10 @@ public class ExtendetItemHandler {
 		if(biddingItem.getOffer()==Config.getInt("max-beginning-bid-price")) {
 			if(!Utils.isInvFull(player)) {
 				player.getInventory().addItem(biddingItem.getItem());
-				player.sendMessage(Config.getLang("item-has-been-given"));
+				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "item-has-been-given");
 			}else{
 				biddingItem.toCollectble();
-				player.sendMessage(Config.getLang("inventory-full"));
+				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "inventory-full");
 			}
 			bidItemList.remove(biddingItem);
 		}
@@ -465,7 +466,7 @@ public class ExtendetItemHandler {
 	 */
 	public static void myConfirm(Player player) {
 		if(Utils.isInvFull(player)) {
-			player.sendMessage(Config.getLang("inventory-full"));
+			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "inventory-full");
 			return;
 		}
 		String itemID=Shop.getSelectedItemByName(player);
@@ -481,16 +482,17 @@ public class ExtendetItemHandler {
 				System.out.println("sItem: "+sItem.getItem().getType());
 				i = sItem.getItem();
 			}else{
-				player.sendMessage(Config.getLang("item-not-found"));
+				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "item-not-found");
 				return;
 			}
 		}
 		player.getInventory().addItem(i);
 		if (sItem!=null) {
-			System.out.println(sItem.getItem().getType());
+			System.out.println("This will be removed: "+sItem.getItem().getType());
 			ItemUtils.removeFromSellList(sItem);
 		//	sellItemList.remove(sItem);
 		}else{
+			System.out.println("This will be removed: "+bItem.getItem().getType());
 			ItemUtils.removeFromBidList(bItem);
 		//	bidItemList.remove(bItem);
 		}
@@ -506,6 +508,7 @@ public class ExtendetItemHandler {
 			return;
 		}
 		Shop.addToSelectedItemMap(player, Shop.getInvByName(player).get(slot));
+		System.out.println("ID of Clicked Slot"+Shop.getInvByName(player).get(slot));
 		ShopType st=Shop.getTypeByName(player);
 		if(st.equals(ShopType.SELL)) {
 			itemClickHandlingSell(player, e);

@@ -4,7 +4,7 @@
     <root id="archive" name="adrundaalauctions-1.0-SNAPSHOT-1.jar">
       <element id="file-copy" path="$PROJECT_DIR$/config.yml" />
       <element id="file-copy" path="$PROJECT_DIR$/plugin.yml" />
-      <element id="module-output" name="adrundaalauctions" />
+      <element id="module-output" name="AdrundaalAuctions" />
     </root>
   </artifact>
 </component>

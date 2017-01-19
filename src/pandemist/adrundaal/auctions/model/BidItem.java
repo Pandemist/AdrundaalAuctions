@@ -35,7 +35,7 @@ public class BidItem extends AuctionItem {
 		super.is=ItemConfig.config.getItemStack("sell."+key+".item");
 		super.attributes=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".attributes"));
 		makeItem();
-		super.individualID=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+"indivID"));
+		super.individualID=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".indivID"));
 		this.offer=Integer.parseInt(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".offer")));
 		this.sellerName=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerName"));
 		this.sellerUUID=UUID.fromString(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerUUID")));

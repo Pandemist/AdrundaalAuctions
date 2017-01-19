@@ -167,23 +167,23 @@ public class EcoUtils {
 		if (stack==null) {
 			return false;
 		}
-		System.out.println(stack.getType());
+	//	System.out.println(stack.getType());
 	//	System.out.println(ItemUtils.getMaterialbyId(Config.getOptionValue("items.money-item.type")));
 		if (!stack.getType().equals(ItemUtils.getMaterialbyId(Config.getOptionValue("items.money-item.type")))) {
-			System.out.println("Stack type passt nicht");
+	//		System.out.println("Stack type passt nicht");
 			return false;
 		}
-		System.out.println(Config.getOptionValue("items.money-item.name"));
+	//	System.out.println(Config.getOptionValue("items.money-item.name"));
 		if(!Config.getOptionValue("items.money-item.name").equals("")) {
 			if(!ItemUtils.getDisplayNameIfNotNull(stack).equals(Config.getOptionValue("items.money-item.name"))) {
-				System.out.println("Stack name passt nicht");
+	//			System.out.println("Stack name passt nicht");
 				return false;
 			}
 		}
-		System.out.println(Config.getStringList("items.money-item.lore"));
+	//	System.out.println(Config.getStringList("items.money-item.lore"));
 		if (!Utils.containsListOnlyEmpty(Config.getStringList("items.money-item.lore"))) {
 			if (!Utils.isEqual(stack.getItemMeta().getLore(),Config.getStringList("items.money.lore"))) {
-				System.out.println("Stack lore passt nicht");
+	//			System.out.println("Stack lore passt nicht");
 				return false;
 			}
 

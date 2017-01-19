@@ -29,7 +29,7 @@ public class InventoryEventHandler implements Listener {
 	 */
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onClickListener(InventoryClickEvent event) {
-		System.out.println(event.getRawSlot());
+	//	System.out.println(event.getRawSlot());
 		if(!event.getInventory().getTitle().contains(Config.getLang("shop-gui-name"))) {
 			return;
 		}
@@ -38,7 +38,7 @@ public class InventoryEventHandler implements Listener {
 		int slot=event.getRawSlot();
 		ItemStack clickedItem=event.getCurrentItem();
 		event.setCancelled(true);
-		System.out.println("~~~~"+clickedItem);
+		System.out.println("~~~~"+clickedItem.getType());
 		if(clickedItem == null) {
 			return;
 		}
@@ -46,7 +46,7 @@ public class InventoryEventHandler implements Listener {
 				||(clickedItem.equals(Config.getOptionItem("blocked-item")))) {
 			return;
 		}
-		System.out.println("This happend");
+	//	System.out.println("This happend");
 		if(clickedItem.equals(Config.getOptionItem("menu.collect"))) {
 			Shop.removeFromPageList(eventTriggerer);
 			Shop.removeFromTypeMap(eventTriggerer);

@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import pandemist.adrundaal.auctions.config.Config;
 import pandemist.adrundaal.auctions.config.ItemConfig;
 import pandemist.adrundaal.auctions.utils.TimeUtils;
+import pandemist.adrundaal.auctions.utils.Utils;
 
 public class BidItem extends AuctionItem {
 	private int offer=0;
@@ -40,7 +41,8 @@ public class BidItem extends AuctionItem {
 		this.sellerName=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerName"));
 		this.sellerUUID=UUID.fromString(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerUUID")));
 		this.topBidderName=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".topBidderName"));
-		this.topBidderUUID=UUID.fromString(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".topBidderUUID")));
+		this.topBidderUUID= Utils.stringToUUID(ItemConfig.config.getString("sell."+key+".topBidderUUID"));
+	//	this.topBidderUUID=UUID.fromString(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".topBidderUUID")));
 	}
 
 	public BidItem() {
@@ -113,7 +115,8 @@ public class BidItem extends AuctionItem {
 		ItemConfig.config.set("bid."+key+".sellerName", this.sellerName);
 		ItemConfig.config.set("bid."+key+".sellerUUID", this.sellerUUID.toString());
 		ItemConfig.config.set("bid."+key+".sellerName", this.topBidderName);
-		ItemConfig.config.set("bid."+key+".sellerUUID", this.topBidderUUID.toString());
+	//	ItemConfig.config.set("bid."+key+".sellerUUID", this.topBidderUUID.toString());
+		ItemConfig.config.set("bid."+key+".sellerUUID", Utils.UUIDToString(this.topBidderUUID));
 		ItemConfig.saveConfig();
 	}
 	/*

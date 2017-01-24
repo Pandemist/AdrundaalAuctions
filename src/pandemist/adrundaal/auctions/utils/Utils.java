@@ -154,4 +154,18 @@ public class Utils {
 		}
 		return true;
 	}
+	public static UUID stringToUUID(String string) {
+		if(string.equals("")) {
+			return null;
+		}else{
+			return UUID.fromString(string);
+		}
+	}
+	public static String UUIDToString(UUID uuid) {
+		if(uuid == null) {
+			return "";
+		}else{
+			return uuid.toString();
+		}
+	}
 }

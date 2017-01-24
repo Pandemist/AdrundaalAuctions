@@ -120,14 +120,19 @@ public class Shop {
         return SelectedItemMap.containsKey(player);
     }
 
-    public static boolean isIdInSelecteditemMap(String string) {
+    public static boolean isTwoTimesIdInSelecteditemMap(String string) {
+        int i =0;
         ArrayList<String> list = new ArrayList<String>(SelectedItemMap.values());
         for (String s : list) {
             if (s.equals(string)) {
-                return true;
+                i++;
             }
         }
-        return false;
+        if(i>1) {
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public static boolean isPlayerInPageList(Player player) {
@@ -272,7 +277,6 @@ public class Shop {
         inv.setItem(49, Config.getOptionItem("menu.refresh"));
         inv.setItem(50, Config.getOptionItem("menu.pageNext"));
         inv.setItem(52, Config.getOptionItem("menu.sellList"));
-        //	inv.setItem(53, Config.getOptionItem("menu.back"));
         return inv;
     }
 
@@ -285,7 +289,8 @@ public class Shop {
         inv.setItem(15, Config.getOptionItem("dialog.bid-10"));
         inv.setItem(16, Config.getOptionItem("dialog.bid-32"));
         inv.setItem(17, Config.getOptionItem("dialog.bid-64"));
-        inv.setItem(22, Config.getOptionItem("dialog.abort"));
+        inv.setItem(21, Config.getOptionItem("dialog.confirm"));
+        inv.setItem(23, Config.getOptionItem("dialog.abort"));
         return inv;
     }
 

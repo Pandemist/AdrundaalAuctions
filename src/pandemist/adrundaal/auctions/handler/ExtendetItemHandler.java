@@ -428,8 +428,8 @@ public class ExtendetItemHandler {
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "item-not-found");
 			return;
 		}
-		if(Shop.getBidValueByName(player)>=Config.getInt("max-beginning-bid-price")) {
-			Shop.updateBidValueByName(player, Config.getInt("max-beginning-bid-price"));
+		if(Shop.getBidValueByName(player)>=Config.getInt("config.max-beginning-bid-price")) {
+			Shop.updateBidValueByName(player, Config.getInt("config.max-beginning-bid-price"));
 		}
 		if(Shop.getBidValueByName(player)<=biddingItem.getOffer()) {
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "offer-to-low");
@@ -445,7 +445,7 @@ public class ExtendetItemHandler {
 		biddingItem.setTopBidderUUID(player.getUniqueId());
 		ItemUtils.replaceBidItemInList(biddingItem);
 		EcoUtils.ecoTakeMoney(player, biddingItem.getOffer());
-		if(biddingItem.getOffer()==Config.getInt("max-beginning-bid-price")) {
+		if(biddingItem.getOffer()==Config.getInt("config.max-beginning-bid-price")) {
 			if(!Utils.isInvFull(player)) {
 				player.getInventory().addItem(biddingItem.getItem());
 				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "item-has-been-given");
@@ -507,6 +507,9 @@ public class ExtendetItemHandler {
 		if(!Shop.isPlayerInTypeMap(player)) {
 			return;
 		}
+		if(Shop.isPlayerInSelectedItemMap(player)) {
+			return;
+		}
 		Shop.addToSelectedItemMap(player, Shop.getInvByName(player).get(slot));
 		System.out.println("ID of Clicked Slot"+Shop.getInvByName(player).get(slot));
 		ShopType st=Shop.getTypeByName(player);
@@ -547,13 +550,24 @@ public class ExtendetItemHandler {
 		BidItem bItem=ItemUtils.getBidItemByUID(itemID);
 		if(bItem==null) {
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "item-not-found");
+			Shop.removeFromSelectedItemMap(player);
 			return;
 		}
-		if(bItem.getSellerUUID().equals(player.getUniqueId())||bItem.getTopBidderUUID().equals(player.getUniqueId())) {
-			itemIsOwnItem(player, event);
-			return;
+		if(bItem.getTopBidderUUID()==null) {
+			if(bItem.getSellerUUID().equals(player.getUniqueId())) {
+				Shop.removeFromSelectedItemMap(player);
+				itemIsOwnItem(player, event);
+				return;
+			}
+		}else{
+			if(bItem.getSellerUUID().equals(player.getUniqueId())||bItem.getTopBidderUUID().equals(player.getUniqueId())) {
+				Shop.removeFromSelectedItemMap(player);
+				itemIsOwnItem(player, event);
+				return;
+			}
 		}
-		if(Shop.isIdInSelecteditemMap(itemID)) {
+		if(Shop.isTwoTimesIdInSelecteditemMap(itemID)) {
+			Shop.removeFromSelectedItemMap(player);
 			itemIsOwnItem(player, event);
 			return;
 		}
@@ -600,7 +614,7 @@ public class ExtendetItemHandler {
 		Inventory inv = event.getInventory();
 		System.out.println(slot);
 		ItemStack item=inv.getItem(slot);
-		ItemStack is=Config.getOptionItem("blocked-item");
+		ItemStack is=Config.getOptionItem("config.blocked-item");
 		inv.setItem(slot, is);
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			public void run() {

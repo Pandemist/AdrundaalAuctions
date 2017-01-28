@@ -92,7 +92,6 @@ public class ExtendetItemHandler {
 		for(; i<maxItemValPerPage&&i<matchingSellItems.size()&&j<=45; i++, j++) {
 			inv=Shop.prepareItem(matchingSellItems.get(i), i, inv);
 			keyList.add(matchingSellItems.get(i).getIndividualID());
-			//TODO: DOSE THIS REALY HAPPEND?
 		}
 		Shop.removeFromInvMap(player);
 		Shop.addToInvMap(player, keyList);
@@ -136,7 +135,7 @@ public class ExtendetItemHandler {
 	public static void openSellConfirmView(Player player) {
 		Shop.closeLastView(player);
 		Inventory inv=Bukkit.createInventory(null, (9), Config.getLang("shop-gui-name"));
-		inv=Shop.setupSellConfirmView(inv);
+		inv=Shop.setupConfirmView(inv);
 		SellItem sItem=ItemUtils.getActualSellItemByPlayer(player);
 		ItemStack is=sItem.getItem().clone();
 		ItemMeta im=is.getItemMeta();
@@ -189,7 +188,7 @@ public class ExtendetItemHandler {
 	*/
 	public static void openBidConfirmView(Player player) {
 		Shop.closeLastView(player);
-		Inventory inv=Bukkit.createInventory(null, 27, Config.getLang("shop-gui-name"));
+		Inventory inv=Bukkit.createInventory(null, 18, Config.getLang("shop-gui-name"));
 		inv=Shop.setupBidConfirmView(inv);
 		BidItem bItem=ItemUtils.getActualBidItemByPlayer(player);
 		ItemStack is=bItem.getItem();
@@ -214,7 +213,7 @@ public class ExtendetItemHandler {
 	public static void openMyOverviewConfirmView(Player player) {
 		Shop.closeLastView(player);
 		Inventory inv=Bukkit.createInventory(null, 9, Config.getLang("shop-gui-name"));
-		inv=Shop.setupMyOverviewConfirm(inv);
+		inv=Shop.setupConfirmView(inv);
 		BidItem bItem=ItemUtils.getActualBidItemByPlayer(player);
 		System.out.println(bItem);
 		ItemStack is;
@@ -336,20 +335,26 @@ public class ExtendetItemHandler {
 	/*
 	*   Updates the offer, a Player give on a Item
 	 */
-	public static void changeOffer(Player player, int newValue) {
+	public static void changeOffer(Player player, char operation, int operand) {
 		if(!Shop.isPlayerInBidValueMap(player)) {
 			return;
 		}
+		System.out.println(operand);
 		int offer=Shop.getBidValueByName(player);
-		offer=offer+newValue;
+		if(operation=='+') {
+			offer=offer+operand;
+		}else{
+			offer=offer-operand;
+		}
+		System.out.println(offer);
 		Shop.updateBidValueByName(player, offer);
 	}
 	/*
 	*   Updates the Itemlore of the Bid Item Dialog
 	 */
-	public static void updateBidView(Player player) {
+	public static void updateBidView(Player player, InventoryClickEvent event) {
 		//BidItem isBiddingItem = ItemUtils.getActualBidItemByPlayer(player);
-		ItemStack is=player.getInventory().getItem(4);
+		ItemStack is=event.getInventory().getItem(4);
 		if(is==null) {
 			return;
 		}
@@ -370,7 +375,7 @@ public class ExtendetItemHandler {
 		}
 		im.setLore(l);
 		is.setItemMeta(im);
-		player.getInventory().setItem(4, is);
+		event.getInventory().setItem(4, is);
 	}
 	/*
 	*   Tests witch Submethod handels the witch cases, and calls these
@@ -431,6 +436,8 @@ public class ExtendetItemHandler {
 		if(Shop.getBidValueByName(player)>=Config.getInt("config.max-beginning-bid-price")) {
 			Shop.updateBidValueByName(player, Config.getInt("config.max-beginning-bid-price"));
 		}
+		System.out.println(Shop.getBidValueByName(player));
+		System.out.println(biddingItem.getOffer());
 		if(Shop.getBidValueByName(player)<=biddingItem.getOffer()) {
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "offer-to-low");
 			return;
@@ -614,8 +621,9 @@ public class ExtendetItemHandler {
 		Inventory inv = event.getInventory();
 		System.out.println(slot);
 		ItemStack item=inv.getItem(slot);
-		ItemStack is=Config.getOptionItem("config.blocked-item");
+		ItemStack is=Config.getOptionItem("blocked-item");
 		inv.setItem(slot, is);
+		System.out.println(is.getType());
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			public void run() {
 				inv.setItem(slot, item);

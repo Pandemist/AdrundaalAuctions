@@ -104,6 +104,8 @@ public enum Filter {
 	private static ArrayList<Material> getPotions() {
 		ArrayList<Material> ma=new ArrayList<Material>();
 		ma.add(Material.POTION);
+		ma.add(Material.SPLASH_POTION);
+		ma.add(Material.LINGERING_POTION);
 		return ma;
 	}
 

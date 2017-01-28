@@ -246,19 +246,7 @@ public class Shop {
         return inv;
     }
 
-    public static Inventory setupSellConfirmView(Inventory inv) {
-        inv.setItem(0, Config.getOptionItem("dialog.confirm"));
-        inv.setItem(1, Config.getOptionItem("dialog.confirm"));
-        inv.setItem(2, Config.getOptionItem("dialog.confirm"));
-        inv.setItem(3, Config.getOptionItem("dialog.confirm"));
-        inv.setItem(5, Config.getOptionItem("dialog.abort"));
-        inv.setItem(6, Config.getOptionItem("dialog.abort"));
-        inv.setItem(7, Config.getOptionItem("dialog.abort"));
-        inv.setItem(8, Config.getOptionItem("dialog.abort"));
-        return inv;
-    }
-
-    public static Inventory setupMyOverviewConfirm(Inventory inv) {
+    public static Inventory setupConfirmView(Inventory inv) {
         inv.setItem(0, Config.getOptionItem("dialog.confirm"));
         inv.setItem(1, Config.getOptionItem("dialog.confirm"));
         inv.setItem(2, Config.getOptionItem("dialog.confirm"));
@@ -281,16 +269,16 @@ public class Shop {
     }
 
     public static Inventory setupBidConfirmView(Inventory inv) {
-        inv.setItem(9, Config.getOptionItem("dialog.bid+64"));
-        inv.setItem(10, Config.getOptionItem("dialog.bid+32"));
-        inv.setItem(11, Config.getOptionItem("dialog.bid+10"));
-        inv.setItem(12, Config.getOptionItem("dialog.bid+1"));
-        inv.setItem(14, Config.getOptionItem("dialog.bid-1"));
-        inv.setItem(15, Config.getOptionItem("dialog.bid-10"));
-        inv.setItem(16, Config.getOptionItem("dialog.bid-32"));
-        inv.setItem(17, Config.getOptionItem("dialog.bid-64"));
-        inv.setItem(21, Config.getOptionItem("dialog.confirm"));
-        inv.setItem(23, Config.getOptionItem("dialog.abort"));
+        inv.setItem(0, Config.getOptionItem("dialog.bid+64"));
+        inv.setItem(1, Config.getOptionItem("dialog.bid+32"));
+        inv.setItem(2, Config.getOptionItem("dialog.bid+10"));
+        inv.setItem(3, Config.getOptionItem("dialog.bid+1"));
+        inv.setItem(5, Config.getOptionItem("dialog.bid-1"));
+        inv.setItem(6, Config.getOptionItem("dialog.bid-10"));
+        inv.setItem(7, Config.getOptionItem("dialog.bid-32"));
+        inv.setItem(8, Config.getOptionItem("dialog.bid-64"));
+        inv.setItem(12, Config.getOptionItem("dialog.confirm"));
+        inv.setItem(14, Config.getOptionItem("dialog.abort"));
         return inv;
     }
 

@@ -37,13 +37,19 @@ public class InventoryEventHandler implements Listener {
 		Player eventTriggerer=(Player) event.getWhoClicked();
 		int slot=event.getRawSlot();
 		ItemStack clickedItem=event.getCurrentItem();
-		event.setCancelled(true);
-		System.out.println("~~~~"+clickedItem.getType());
-		if(clickedItem == null) {
+		if(clickedItem==null) {
 			return;
 		}
 		if(clickedItem.getType().equals(Material.AIR)
 				||(clickedItem.equals(Config.getOptionItem("blocked-item")))) {
+			return;
+		}
+		event.setCancelled(true);
+		System.out.println("~~~~"+clickedItem.getType());
+		if(clickedItem.getItemMeta().hasDisplayName()) {
+			System.out.println("~~~~" + clickedItem.getItemMeta().getDisplayName());
+		}
+		if(clickedItem == null) {
 			return;
 		}
 	//	System.out.println("This happend");
@@ -128,33 +134,32 @@ public class InventoryEventHandler implements Listener {
 			ExtendetItemHandler.openShopByType(eventTriggerer);
 		}else if(clickedItem.equals(Config.getOptionItem("dialog.confirm"))) {
 			ExtendetItemHandler.mainConfirmMethod(eventTriggerer);
+		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid+1"))) {
+			ExtendetItemHandler.changeOffer(eventTriggerer, '+', 1);
+			ExtendetItemHandler.updateBidView(eventTriggerer, event);
+		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid+10"))) {
+			ExtendetItemHandler.changeOffer(eventTriggerer, '+', 10);
+			ExtendetItemHandler.updateBidView(eventTriggerer, event);
+		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid+32"))) {
+			ExtendetItemHandler.changeOffer(eventTriggerer, '+', 32);
+			ExtendetItemHandler.updateBidView(eventTriggerer, event);
+		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid+64"))) {
+			ExtendetItemHandler.changeOffer(eventTriggerer, '+', 64);
+			ExtendetItemHandler.updateBidView(eventTriggerer, event);
+		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid-1"))) {
+			ExtendetItemHandler.changeOffer(eventTriggerer, '-', 1);
+			ExtendetItemHandler.updateBidView(eventTriggerer, event);
+		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid-10"))) {
+			ExtendetItemHandler.changeOffer(eventTriggerer, '-', 10);
+			ExtendetItemHandler.updateBidView(eventTriggerer, event);
+		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid-32"))) {
+			ExtendetItemHandler.changeOffer(eventTriggerer, '-', 32);
+			ExtendetItemHandler.updateBidView(eventTriggerer, event);
+		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid-64"))) {
+			ExtendetItemHandler.changeOffer(eventTriggerer, '-', 64);
+			ExtendetItemHandler.updateBidView(eventTriggerer, event);
 		}else if(clickedItem.equals(Config.getOptionItem("dialog.abort"))) {
 			ExtendetItemHandler.theGoBackMethod(eventTriggerer);
-			//SAME AS MENU.BACK but on another item bounded. Specially in Menu with collored Wool.
-		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid+1"))) {
-			ExtendetItemHandler.changeOffer(eventTriggerer, +1);
-			ExtendetItemHandler.updateBidView(eventTriggerer);
-		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid+10"))) {
-			ExtendetItemHandler.changeOffer(eventTriggerer, +10);
-			ExtendetItemHandler.updateBidView(eventTriggerer);
-		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid+32"))) {
-			ExtendetItemHandler.changeOffer(eventTriggerer, +32);
-			ExtendetItemHandler.updateBidView(eventTriggerer);
-		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid+64"))) {
-			ExtendetItemHandler.changeOffer(eventTriggerer, +64);
-			ExtendetItemHandler.updateBidView(eventTriggerer);
-		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid-1"))) {
-			ExtendetItemHandler.changeOffer(eventTriggerer, -1);
-			ExtendetItemHandler.updateBidView(eventTriggerer);
-		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid-10"))) {
-			ExtendetItemHandler.changeOffer(eventTriggerer, -10);
-			ExtendetItemHandler.updateBidView(eventTriggerer);
-		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid-32"))) {
-			ExtendetItemHandler.changeOffer(eventTriggerer, -32);
-			ExtendetItemHandler.updateBidView(eventTriggerer);
-		}else if(clickedItem.equals(Config.getOptionItem("dialog.bid-64"))) {
-			ExtendetItemHandler.changeOffer(eventTriggerer, -64);
-			ExtendetItemHandler.updateBidView(eventTriggerer);
 		}else/* if(clickedItem.equals(Config.getOptionItem(""))) {
 			//TOsDO: SOMETHING
 		}else*/{

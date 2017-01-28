@@ -85,4 +85,7 @@ public class Config {
 	public static int getInt(String key) {
 		return Integer.parseInt(Config.notNull(config.getString(key)));
 	}
+	public static long getLong(String key) {
+		return Long.parseLong(Config.notNull(config.getString(key)));
+	}
 }

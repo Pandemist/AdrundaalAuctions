@@ -27,14 +27,14 @@ public class SellItem extends AuctionItem {
 	}
 
 	public SellItem(String key) {
-		super.timeExpire=Long.parseLong(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".timeExpire")));
+		super.timeExpire=ItemConfig.config.getLong("sell."+key+".timeExpire");
 		super.is=ItemConfig.config.getItemStack("sell."+key+".item");
 		super.attributes=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".attributes"));
 		super.individualID=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".indivID"));
 		makeItem();
-		this.price=Integer.parseInt(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".price")));
+		this.price=ItemConfig.config.getInt("sell."+key+".price");
 		this.sellerName=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerName"));
-		this.sellerUUID=UUID.fromString(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerUUID")));
+		this.sellerUUID=UUID.fromString(ItemConfig.config.getString("sell."+key+".sellerUUID"));
 	}
 
 	public SellItem() {

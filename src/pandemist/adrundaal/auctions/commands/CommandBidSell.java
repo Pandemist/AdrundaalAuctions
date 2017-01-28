@@ -77,20 +77,20 @@ public class CommandBidSell {
 		int price=Integer.parseInt(args[1]);
 //Test if bid and sell limit is not reached
 		if(args[0].equalsIgnoreCase("Bid")) {
-			if(price<Config.getInt("config.minimum-bid-price")) {
+			if(price<=Config.getInt("config.minimum-bid-price")) {
 				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "bid-price-to-low");
 				return;
 			}
-			if(price>Config.getInt("config.max-beginning-bid-price")) {
+			if(price>=Config.getInt("config.max-beginning-bid-price")) {
 				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "bid-price-to-high");
 				return;
 			}
 		}else{
-			if(price<Config.getInt("config.minimum-sell-price")) {
+			if(price<=Config.getInt("config.minimum-sell-price")) {
 				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "sell-price-to-low");
 				return;
 			}
-			if(price>Config.getInt("config.max-beginning-sell-price")) {
+			if(price>=Config.getInt("config.max-beginning-sell-price")) {
 				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "sell-price-to-high");
 				return;
 			}

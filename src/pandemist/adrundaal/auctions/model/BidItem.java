@@ -32,16 +32,18 @@ public class BidItem extends AuctionItem {
 	}
 
 	public BidItem(String key) {
-		super.timeExpire=Long.parseLong(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".timeExpire")));
+		super.timeExpire=ItemConfig.config.getLong("sell."+key+".timeExpire");
 		super.is=ItemConfig.config.getItemStack("sell."+key+".item");
 		super.attributes=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".attributes"));
 		makeItem();
 		super.individualID=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".indivID"));
-		this.offer=Integer.parseInt(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".offer")));
+		this.offer=ItemConfig.config.getInt("sell."+key+".offer");
 		this.sellerName=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerName"));
-		this.sellerUUID=UUID.fromString(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerUUID")));
+		System.out.println(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerName")));
+		this.sellerUUID=Utils.stringToUUID(ItemConfig.config.getString("sell."+key+".sellerUUID"));
+		System.out.println(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerUUID")));
 		this.topBidderName=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".topBidderName"));
-		this.topBidderUUID= Utils.stringToUUID(ItemConfig.config.getString("sell."+key+".topBidderUUID"));
+		this.topBidderUUID=Utils.stringToUUID(ItemConfig.config.getString("sell."+key+".topBidderUUID"));
 	//	this.topBidderUUID=UUID.fromString(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".topBidderUUID")));
 	}
 
@@ -114,9 +116,8 @@ public class BidItem extends AuctionItem {
 		ItemConfig.config.set("bid."+key+".indivID", this.individualID);
 		ItemConfig.config.set("bid."+key+".sellerName", this.sellerName);
 		ItemConfig.config.set("bid."+key+".sellerUUID", this.sellerUUID.toString());
-		ItemConfig.config.set("bid."+key+".sellerName", this.topBidderName);
-	//	ItemConfig.config.set("bid."+key+".sellerUUID", this.topBidderUUID.toString());
-		ItemConfig.config.set("bid."+key+".sellerUUID", Utils.UUIDToString(this.topBidderUUID));
+		ItemConfig.config.set("bid."+key+".topBidderName", this.topBidderName);
+		ItemConfig.config.set("bid."+key+".topBidderUUID", Utils.UUIDToString(this.topBidderUUID));
 		ItemConfig.saveConfig();
 	}
 	/*

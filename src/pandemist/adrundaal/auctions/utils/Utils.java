@@ -155,6 +155,9 @@ public class Utils {
 		return true;
 	}
 	public static UUID stringToUUID(String string) {
+		if(string==null) {
+			return null;
+		}
 		if(string.equals("")) {
 			return null;
 		}else{

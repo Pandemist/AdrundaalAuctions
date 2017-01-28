@@ -24,7 +24,7 @@ public class CollectableItem extends AuctionItem {
 	}
 
 	public CollectableItem(String key) {
-		super.timeExpire=Long.parseLong(ItemConfig.notNull(ItemConfig.config.getString("collect."+key+".timeExpire")));
+		super.timeExpire=ItemConfig.config.getLong("collect."+key+".timeExpire");
 		super.is=ItemConfig.config.getItemStack("collect."+key+".item");
 		super.attributes=ItemConfig.notNull(ItemConfig.config.getString("collect."+key+".attributes"));
 		makeItem();

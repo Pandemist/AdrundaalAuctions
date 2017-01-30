@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pandemist.adrundaal.auctions.commands.*;
 import pandemist.adrundaal.auctions.config.Config;
 import pandemist.adrundaal.auctions.config.ItemConfig;
+import pandemist.adrundaal.auctions.config.LogConfig;
 import pandemist.adrundaal.auctions.handler.InventoryEventHandler;
 import pandemist.adrundaal.auctions.model.BidItem;
 import pandemist.adrundaal.auctions.model.CollectableItem;
@@ -36,6 +37,7 @@ public class AdrundaalAuctions extends JavaPlugin {
 		this.saveConfig();
 		Config.init(this.getConfig());
 		ItemConfig.init(this.getDataFolder() + File.separator + "itmes.yml");
+		LogConfig.init(this.getDataFolder() + File.separator + "log.yml");
 		ItemConfig.loadItemList();
 		itemMoneyUse = Config.getOptionValue("config.item-money-use").equals("true");
 		if(!itemMoneyUse&&EcoUtils.hasVault()) {
@@ -57,6 +59,7 @@ public class AdrundaalAuctions extends JavaPlugin {
 			collectItemList.clear();
 		}
 		ItemConfig.destroy();
+		LogConfig.destroy();
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

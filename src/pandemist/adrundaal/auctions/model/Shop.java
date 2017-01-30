@@ -1,6 +1,7 @@
 package pandemist.adrundaal.auctions.model;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -57,6 +58,7 @@ public class Shop {
     }
 
     public static void addToSelectedItemMap(Player player, String indivID) {
+    //    System.out.println("Add to selected Item Map");
         if (isPlayerInSelectedItemMap(player)) {
             removeFromSelectedItemMap(player);
         }
@@ -64,6 +66,7 @@ public class Shop {
     }
 
     public static void addToBidValueMap(Player player, int value) {
+        System.out.println("Player add to Bid Map");
         if (isPlayerInBidValueMap(player)) {
             removeFromBidValueMap(player);
         }
@@ -93,10 +96,12 @@ public class Shop {
     }
 
     public static void removeFromBidValueMap(Player player) {
+        System.out.println("Player remove from Bid Map");
         BidValueMap.remove(player);
     }
 
     public static void removeFromSelectedItemMap(Player player) {
+    //    System.out.println("Remove Player from Sel I Map");
         SelectedItemMap.remove(player);
     }
 
@@ -113,7 +118,8 @@ public class Shop {
     }
 
     public static boolean isPlayerInBidValueMap(Player player) {
-        return BidValueMap.containsValue(player);
+        System.out.println(player.getDisplayName());
+        return BidValueMap.containsKey(player);
     }
 
     public static boolean isPlayerInSelectedItemMap(Player player) {
@@ -222,6 +228,7 @@ public class Shop {
         inv.setItem(49, Config.getOptionItem("menu.refresh"));
         inv.setItem(50, Config.getOptionItem("menu.pageNext"));
         inv.setItem(51, Config.getOptionItem("menu.bidList"));
+
         return inv;
     }
 
@@ -238,9 +245,11 @@ public class Shop {
     public static Inventory setupSellView(Inventory inv) {
         inv.setItem(45, Config.getOptionItem("menu.myOverview"));
         inv.setItem(46, Config.getOptionItem("menu.collect"));
+        inv.setItem(47, Config.getOptionItem("menu.filter"));
         inv.setItem(48, Config.getOptionItem("menu.pageBack"));
         inv.setItem(49, Config.getOptionItem("menu.refresh"));
         inv.setItem(50, Config.getOptionItem("menu.pageNext"));
+        inv.setItem(51, Config.getOptionItem("menu.filter"));
         inv.setItem(52, Config.getOptionItem("menu.bidList"));
         //	inv.setItem(53, Config.getOptionItem("menu.back"));
         return inv;
@@ -261,9 +270,11 @@ public class Shop {
     public static Inventory setupBidView(Inventory inv) {
         inv.setItem(45, Config.getOptionItem("menu.myOverview"));
         inv.setItem(46, Config.getOptionItem("menu.collect"));
+        inv.setItem(47, Config.getOptionItem("menu.filter"));
         inv.setItem(48, Config.getOptionItem("menu.pageBack"));
         inv.setItem(49, Config.getOptionItem("menu.refresh"));
         inv.setItem(50, Config.getOptionItem("menu.pageNext"));
+        inv.setItem(51, Config.getOptionItem("menu.filter"));
         inv.setItem(52, Config.getOptionItem("menu.sellList"));
         return inv;
     }
@@ -399,6 +410,9 @@ public class Shop {
     *   Adds the Bidlore to an item on a special Slot
      */
     public static Inventory prepareItem(BidItem bItem, int pos, Inventory inv) {
+        if(bItem.getItem()==null) {
+            return inv;
+        }
         ItemStack itemForInv = bItem.getItem().clone();
         if (Config.getOptionValue("has-normal-lore-in-Views").equals("false")) {
             itemForInv = clearLore(itemForInv);
@@ -407,10 +421,14 @@ public class Shop {
         List<String> lore = Config.getStringList("items.bid-item-lore");
         ArrayList<String> l = new ArrayList<String>();
         for (String loreLine : lore) {
-            loreLine.replaceAll("%SELLER%", bItem.getSellerName()).replaceAll("%SELLER%", bItem.getSellerName());
-            loreLine.replaceAll("%TOP_BIDDER%", bItem.getTopBidderName()).replaceAll("%TOP_BIDDER%", bItem.getTopBidderName());
-            loreLine.replaceAll("%BID%", bItem.getOffer() + "").replaceAll("%BID%", bItem.getOffer() + "");
-            loreLine.replaceAll("%LEFT%", TimeUtils.convertToTime(bItem.getTimeExpire())).replaceAll("%LEFT%", TimeUtils.convertToTime(bItem.getTimeExpire()));
+            loreLine=loreLine.replaceAll("%SELLER%", bItem.getSellerName());
+            if(!bItem.getTopBidderName().equals("")) {
+                loreLine=loreLine.replaceAll("%TOP_BIDDER%", bItem.getTopBidderName());
+            }else{
+                loreLine=loreLine.replaceAll("%TOP_BIDDER%", "-");
+            }
+            loreLine=loreLine.replaceAll("%BID%", bItem.getOffer() + "");
+            loreLine=loreLine.replaceAll("%LEFT%", TimeUtils.convertToTime(bItem.getTimeExpire()));
             l.add(ItemUtils.color(loreLine));
         }
         im.setLore(l);
@@ -429,9 +447,9 @@ public class Shop {
         List<String> lore = Config.getStringList("items.sell-item-lore");
         ArrayList<String> l = new ArrayList<String>();
         for (String loreLine : lore) {
-            loreLine.replaceAll("%SELLER%", sItem.getSellerName());
-            loreLine.replaceAll("%PRICE%", sItem.getPrice() + "");
-            loreLine.replaceAll("%LEFT%", TimeUtils.convertToTime(sItem.getTimeExpire()));
+            loreLine=loreLine.replaceAll("%SELLER%", sItem.getSellerName());
+            loreLine=loreLine.replaceAll("%PRICE%", sItem.getPrice() + "");
+            loreLine=loreLine.replaceAll("%LEFT%", TimeUtils.convertToTime(sItem.getTimeExpire()));
             l.add(ItemUtils.color(loreLine));
         }
         im.setLore(l);
@@ -450,7 +468,7 @@ public class Shop {
         List<String> lore = Config.getStringList("items.collectable-item-lore");
         ArrayList<String> l = new ArrayList<String>();
         for (String loreLine : lore) {
-            loreLine.replaceAll("%LEFT%", TimeUtils.convertToTime(cItem.getTimeExpire()));
+            loreLine=loreLine.replaceAll("%LEFT%", TimeUtils.convertToTime(cItem.getTimeExpire()));
             l.add(ItemUtils.color(loreLine));
         }
         im.setLore(l);

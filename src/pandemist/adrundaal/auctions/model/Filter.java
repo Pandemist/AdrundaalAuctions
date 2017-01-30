@@ -74,6 +74,8 @@ public enum Filter {
 		ma.add(Material.STONE_HOE);
 		ma.add(Material.IRON_HOE);
 		ma.add(Material.DIAMOND_HOE);
+		ma.add(Material.FISHING_ROD);
+		ma.add(Material.FLINT_AND_STEEL);
 		return ma;
 	}
 
@@ -87,7 +89,11 @@ public enum Filter {
 		ma.add(Material.STONE_AXE);
 		ma.add(Material.IRON_AXE);
 		ma.add(Material.DIAMOND_AXE);
+		ma.add(Material.SHIELD);
 		ma.add(Material.BOW);
+		ma.add(Material.ARROW);
+		ma.add(Material.TIPPED_ARROW);
+		ma.add(Material.SPECTRAL_ARROW);
 		return ma;
 	}
 

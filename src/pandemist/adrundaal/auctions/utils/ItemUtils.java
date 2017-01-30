@@ -32,10 +32,15 @@ public class ItemUtils {
 		ArrayList<String> l=new ArrayList<String>();
 		ItemMeta im=i.getItemMeta();
 		if(notNull(name)) {
-			im.setDisplayName(name);
+			im.setDisplayName(color(name));
 		}
 		if(!lore.isEmpty()) {
-			for(String L : lore) l.add(color(L));
+			for(String L : lore){
+				if(L.equals("")) {
+					continue;
+				}
+				l.add(color(L));
+			}
 			im.setLore(l);
 		}
 		if(enchantments!=null) {

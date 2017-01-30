@@ -11,6 +11,7 @@ import org.bukkit.plugin.Plugin;
 import pandemist.adrundaal.auctions.AdrundaalAuctions;
 import pandemist.adrundaal.auctions.config.Config;
 import pandemist.adrundaal.auctions.config.ItemConfig;
+import pandemist.adrundaal.auctions.config.LogConfig;
 import pandemist.adrundaal.auctions.model.*;
 import pandemist.adrundaal.auctions.utils.ChatUtils;
 import pandemist.adrundaal.auctions.utils.EcoUtils;
@@ -191,16 +192,17 @@ public class ExtendetItemHandler {
 		Inventory inv=Bukkit.createInventory(null, 18, Config.getLang("shop-gui-name"));
 		inv=Shop.setupBidConfirmView(inv);
 		BidItem bItem=ItemUtils.getActualBidItemByPlayer(player);
-		ItemStack is=bItem.getItem();
+		ItemStack is=bItem.getItem().clone();
 		ItemMeta im=is.getItemMeta();
 		im.setLore(null);
 		List<String> lore=Config.getStringList("items.bidding-item-lore");
 		ArrayList<String> l=new ArrayList<String>();
 		for(String loreLine : lore) {
-			loreLine.replaceAll("%OLD_BID%", ItemUtils.getActualBidItemByPlayer(player).getOffer()+"");
-			loreLine.replaceAll("%NEW_BID%", "&c"+ItemUtils.getActualBidItemByPlayer(player).getOffer()+"");
+			loreLine=loreLine.replaceAll("%OLD_BID%", ItemUtils.getActualBidItemByPlayer(player).getOffer()+"");
+			loreLine=loreLine.replaceAll("%NEW_BID%", "&c"+ItemUtils.getActualBidItemByPlayer(player).getOffer()+"");
 			l.add(ItemUtils.color(loreLine));
 		}
+		Shop.addToBidValueMap(player, ItemUtils.getActualBidItemByPlayer(player).getOffer()+1);
 		im.setLore(l);
 		is.setItemMeta(im);
 		inv.setItem(4, is);
@@ -287,8 +289,9 @@ public class ExtendetItemHandler {
 	public static void collectAllItems(Player player) {
 		ArrayList<CollectableItem> matchingItems=Shop.getMatchingCollectableByPlayerName(player);
 		for(CollectableItem cItem : matchingItems) {
+			LogConfig.addToLogFile("givenBack", cItem.getOwnerName(), cItem.getItem());
 			if(!Utils.isInvFull(player)) {
-				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "no-free-space");
+				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "inventory-full");
 				break;
 			}else{
 				player.getInventory().addItem(cItem.getItem());
@@ -339,14 +342,15 @@ public class ExtendetItemHandler {
 		if(!Shop.isPlayerInBidValueMap(player)) {
 			return;
 		}
-		System.out.println(operand);
 		int offer=Shop.getBidValueByName(player);
 		if(operation=='+') {
 			offer=offer+operand;
 		}else{
 			offer=offer-operand;
 		}
-		System.out.println(offer);
+		if(offer<1) {
+			offer=0;
+		}
 		Shop.updateBidValueByName(player, offer);
 	}
 	/*
@@ -369,8 +373,8 @@ public class ExtendetItemHandler {
 		List<String> lore=Config.getStringList("items.bidding-item-lore");
 		ArrayList<String> l=new ArrayList<String>();
 		for(String loreLine : lore) {
-			loreLine.replaceAll("%OLD_BID%", ItemUtils.getActualBidItemByPlayer(player).getOffer()+"");
-			loreLine.replaceAll("%NEW_BID%", topBidding);
+			loreLine=loreLine.replaceAll("%OLD_BID%", (ItemUtils.getActualBidItemByPlayer(player).getOffer()+1)+"");
+			loreLine=loreLine.replaceAll("%NEW_BID%", topBidding);
 			l.add(ItemUtils.color(loreLine));
 		}
 		im.setLore(l);
@@ -446,7 +450,10 @@ public class ExtendetItemHandler {
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "not-enought-money");
 			return;
 		}
-		EcoUtils.ecoGiveMoney(biddingItem.getTopBidderName(), biddingItem.getTopBidderUUID(), biddingItem.getOffer());
+		if(biddingItem.getTopBidderUUID()!=null) {
+			EcoUtils.ecoGiveMoney(biddingItem.getTopBidderName(), biddingItem.getTopBidderUUID(), biddingItem.getOffer());
+		}
+		LogConfig.addToLogFile("givenBack", biddingItem.getSellerName(), biddingItem.getItem());
 		biddingItem.setOffer(Shop.getBidValueByName(player));
 		biddingItem.setTopBidderName(player.getDisplayName());
 		biddingItem.setTopBidderUUID(player.getUniqueId());
@@ -483,10 +490,12 @@ public class ExtendetItemHandler {
 		SellItem sItem = ItemUtils.getSellItemByUID(itemID);
 		if(bItem!=null) {
 			System.out.println("bItem: "+bItem.getItem().getType());
+			LogConfig.addToLogFile("aborted", bItem.getSellerName(), bItem.getItem());
 			i = bItem.getItem();
 		}else{
 			if(sItem!=null) {
 				System.out.println("sItem: "+sItem.getItem().getType());
+				LogConfig.addToLogFile("aborted", sItem.getSellerName(), sItem.getItem());
 				i = sItem.getItem();
 			}else{
 				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "item-not-found");
@@ -578,7 +587,7 @@ public class ExtendetItemHandler {
 			itemIsOwnItem(player, event);
 			return;
 		}
-		Shop.addToBidValueMap(player, bItem.getOffer());
+		Shop.addToBidValueMap(player, bItem.getOffer()+1);
 		Shop.addToSelectedItemMap(player, bItem.getIndividualID());
 		openBidConfirmView(player);
 	}
@@ -602,10 +611,12 @@ public class ExtendetItemHandler {
 		if(itemID.charAt(0)=='b') {
 			BidItem bItem=ItemUtils.getBidItemByUID(itemID);
 			itemToReturn=bItem.getItem();
+			LogConfig.addToLogFile("givenBack", bItem.getSellerName(), bItem.getItem());
 			bidItemList.remove(bItem);
 		}else{
 			SellItem sItem=ItemUtils.getSellItemByUID(itemID);
 			itemToReturn=sItem.getItem();
+			LogConfig.addToLogFile("givenBack", sItem.getSellerName(), sItem.getItem());
 			sellItemList.remove(sItem);
 		}
 		player.getInventory().addItem(itemToReturn);

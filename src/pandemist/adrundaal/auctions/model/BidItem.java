@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import pandemist.adrundaal.auctions.config.Config;
 import pandemist.adrundaal.auctions.config.ItemConfig;
+import pandemist.adrundaal.auctions.config.LogConfig;
 import pandemist.adrundaal.auctions.utils.TimeUtils;
 import pandemist.adrundaal.auctions.utils.Utils;
 
@@ -32,18 +33,19 @@ public class BidItem extends AuctionItem {
 	}
 
 	public BidItem(String key) {
-		super.timeExpire=ItemConfig.config.getLong("sell."+key+".timeExpire");
-		super.is=ItemConfig.config.getItemStack("sell."+key+".item");
-		super.attributes=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".attributes"));
+		super.timeExpire=ItemConfig.config.getLong("bid."+key+".timeExpire");
+		super.is=ItemConfig.config.getItemStack("bid."+key+".item");
+	//	System.out.println("Biditem load"+this.getItem().getType());
+		super.attributes=ItemConfig.notNull(ItemConfig.config.getString("bid."+key+".attributes"));
 		makeItem();
-		super.individualID=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".indivID"));
-		this.offer=ItemConfig.config.getInt("sell."+key+".offer");
-		this.sellerName=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerName"));
-		System.out.println(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerName")));
-		this.sellerUUID=Utils.stringToUUID(ItemConfig.config.getString("sell."+key+".sellerUUID"));
-		System.out.println(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".sellerUUID")));
-		this.topBidderName=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".topBidderName"));
-		this.topBidderUUID=Utils.stringToUUID(ItemConfig.config.getString("sell."+key+".topBidderUUID"));
+		super.individualID=ItemConfig.notNull(ItemConfig.config.getString("bid."+key+".indivID"));
+		this.offer=ItemConfig.config.getInt("bid."+key+".offer");
+		this.sellerName=ItemConfig.notNull(ItemConfig.config.getString("bid."+key+".sellerName"));
+	//	System.out.println(ItemConfig.notNull(ItemConfig.config.getString("bid."+key+".sellerName")));
+		this.sellerUUID=Utils.stringToUUID(ItemConfig.config.getString("bid."+key+".sellerUUID"));
+	//	System.out.println(ItemConfig.notNull(ItemConfig.config.getString("bid."+key+".sellerUUID")));
+		this.topBidderName=ItemConfig.notNull(ItemConfig.config.getString("bid."+key+".topBidderName"));
+		this.topBidderUUID=Utils.stringToUUID(ItemConfig.config.getString("bid."+key+".topBidderUUID"));
 	//	this.topBidderUUID=UUID.fromString(ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".topBidderUUID")));
 	}
 
@@ -111,6 +113,7 @@ public class BidItem extends AuctionItem {
 		getAttrFromItem();
 		ItemConfig.config.set("bid."+key+".timeExpire", this.timeExpire);
 		ItemConfig.config.set("bid."+key+".item", this.is);
+	//	System.out.println("Biditem load"+this.getItem().getType());
 		ItemConfig.config.set("bid."+key+".attributes", this.attributes);
 		ItemConfig.config.set("bid."+key+".offer", this.offer);
 		ItemConfig.config.set("bid."+key+".indivID", this.individualID);

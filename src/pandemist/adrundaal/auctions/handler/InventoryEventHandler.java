@@ -7,6 +7,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import pandemist.adrundaal.auctions.config.Config;
 import pandemist.adrundaal.auctions.config.ItemConfig;
@@ -17,10 +18,11 @@ import pandemist.adrundaal.auctions.utils.Utils;
 
 public class InventoryEventHandler implements Listener {
 	//Listener for Inventory Closing. Removes from all Shop maps.
-/*	@EventHandler(priority=EventPriority.HIGH)
+	/*@EventHandler(priority=EventPriority.HIGH)
 	public void onCloseListener(InventoryCloseEvent event) {
-		//	Player eventTriggerer=(Player) event.getPlayer();
-		//	Shop.clearListsFromPlayer(eventTriggerer);
+			Player eventTriggerer=(Player) event.getPlayer();
+			Shop.removeFromSelectedItemMap(eventTriggerer);
+			Shop.removeFromBidValueMap(eventTriggerer);
 	}*/
 	/*
 	*   The Item onclick Handler
@@ -29,29 +31,25 @@ public class InventoryEventHandler implements Listener {
 	 */
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onClickListener(InventoryClickEvent event) {
-	//	System.out.println(event.getRawSlot());
-		if(!event.getInventory().getTitle().contains(Config.getLang("shop-gui-name"))) {
+		if(event.getSlotType().equals(InventoryType.SlotType.OUTSIDE)) {
+			return;
+		}
+		if(!event.getClickedInventory().getTitle().contains(Config.getLang("shop-gui-name"))) {
+			return;
+		}
+		ItemStack clickedItem=event.getCurrentItem();
+		if(clickedItem==null) {
 			return;
 		}
 		Utils.updateListActuallity();
 		Player eventTriggerer=(Player) event.getWhoClicked();
 		int slot=event.getRawSlot();
-		ItemStack clickedItem=event.getCurrentItem();
-		if(clickedItem==null) {
-			return;
-		}
 		if(clickedItem.getType().equals(Material.AIR)
 				||(clickedItem.equals(Config.getOptionItem("blocked-item")))) {
 			return;
 		}
 		event.setCancelled(true);
 		System.out.println("~~~~"+clickedItem.getType());
-		if(clickedItem.getItemMeta().hasDisplayName()) {
-			System.out.println("~~~~" + clickedItem.getItemMeta().getDisplayName());
-		}
-		if(clickedItem == null) {
-			return;
-		}
 	//	System.out.println("This happend");
 		if(clickedItem.equals(Config.getOptionItem("menu.collect"))) {
 			Shop.removeFromPageList(eventTriggerer);

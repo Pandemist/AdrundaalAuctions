@@ -26,11 +26,9 @@ public class ChatUtils {
 		if(Utils.isOnline(uuid)) {
 			Player player=Bukkit.getPlayer(uuid);
 			String message=Config.getLang(key);
-			System.out.println(is.getType()+"-"+is.getAmount());
 			if(is!=null) {
-				System.out.println(message);
-				message.replaceAll("%Amout%", is.getAmount()+"").replaceAll("%amout%", is.getAmount()+"");
-				message.replaceAll("%Item%", is.getType()+"").replaceAll("%item%", is.getType()+"");
+				message=message.replaceAll("%AMOUNT%", is.getAmount()+"");
+				message=message.replaceAll("%ITEM%", is.getType()+"");
 			}
 			String praefix=Config.getLang("chat-praefix");
 			player.sendMessage(ItemUtils.color(praefix+" "+message));

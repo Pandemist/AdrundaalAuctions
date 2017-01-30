@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import pandemist.adrundaal.auctions.AdrundaalAuctions;
 import pandemist.adrundaal.auctions.config.Config;
 import pandemist.adrundaal.auctions.config.ItemConfig;
+import pandemist.adrundaal.auctions.config.LogConfig;
 import pandemist.adrundaal.auctions.model.BidItem;
 import pandemist.adrundaal.auctions.model.SellItem;
 import pandemist.adrundaal.auctions.utils.ChatUtils;
@@ -111,6 +112,9 @@ public class CommandBidSell {
 		}
 //Test if item is on BlackList
 		for(String id : Config.getStringList("config.blacklist")) {
+			if(id.equals("")) {
+				continue;
+			}
 			if(is.getType()==Material.matchMaterial(id)) {
 				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "ítem-blacklisted");
 				return;
@@ -118,6 +122,9 @@ public class CommandBidSell {
 		}
 //Test if item is on Name BlackList
 		for(String id : Config.getStringList("config.name_blacklist")) {
+			if(id.equals("")) {
+				continue;
+			}
 			if(is.getItemMeta().getDisplayName()==null) {
 				break;
 			}
@@ -128,6 +135,9 @@ public class CommandBidSell {
 		}
 //Test if item is on Lore BlackList
 		for(String id : Config.getStringList("config.lore_blacklist")) {
+			if(id.equals("")) {
+				continue;
+			}
 			if(is.getItemMeta().getLore()==null) {
 				break;
 			}
@@ -149,7 +159,7 @@ public class CommandBidSell {
 				}
 			}
 		}
-//Create AuctionItem (means Biditem oder SellItem, debends on args[0]) an fill it with values
+//Create AuctionItem (means Biditem oder SellItem, depends on args[0]) an fill it with values
 		ItemStack iss=is.clone();
 		iss.setAmount(amountOfItemToTake);
 		String indivID=player.getUniqueId().toString()+"-"+TimeUtils.getNowTime();
@@ -158,11 +168,13 @@ public class CommandBidSell {
 			BidItem bi=new BidItem(TimeUtils.convertToMill(Config.getOptionValue("config.bid-time")), Integer.parseInt(args[1]), iss, indivID, player.getName(), ((Player) sender).getUniqueId());
 			AdrundaalAuctions.bidItemList.add(bi);
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "successfully-inserted", bi.getItem());
+			LogConfig.addToLogFile("addItem", player.getDisplayName(), bi.getItem());
 		}else{
 			indivID="s-"+indivID;
 			SellItem si=new SellItem(TimeUtils.convertToMill(Config.getOptionValue("config.bid-time")), Integer.parseInt(args[1]), iss, indivID, player.getName(), ((Player) sender).getUniqueId());
 			AdrundaalAuctions.sellItemList.add(si);
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "successfully-inserted", si.getItem());
+			LogConfig.addToLogFile("addItem", player.getDisplayName(), si.getItem());
 		}
 		System.out.println(indivID);
 		ItemConfig.refreshLists();

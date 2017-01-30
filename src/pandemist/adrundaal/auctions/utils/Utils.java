@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import pandemist.adrundaal.auctions.config.LogConfig;
 import pandemist.adrundaal.auctions.model.*;
 
 import java.util.ArrayList;
@@ -107,6 +108,7 @@ public class Utils {
 				}else{
 					ChatUtils.sendMessageToPlayer(b.getSellerUUID(), "item-time-expired", b.getItem());
 				}
+				LogConfig.addToLogFile("expired", b.getSellerName(), b.getItem());
 				bidItemList.remove(b);
 			}
 		}
@@ -120,7 +122,8 @@ public class Utils {
 		for(CollectableItem c : collectItemList) {
 			if(cal.after(c.getTimeExpire())) {
 				ChatUtils.sendMessageToPlayer(c.getOwnerUUID(), "item-time-expired-clear", c.getItem());
-				sellItemList.remove(c);
+				LogConfig.addToLogFile("removed", c.getOwnerName(), c.getItem());
+				collectItemList.remove(c);
 			}
 		}
 	}

@@ -36,12 +36,12 @@ config:
   default-shop-filter: 'Filter.None'
 messages:
   log:
-    addItem: '%NAME%(%UUID%) Added Item to Auctionhouse. %ITEM%(%AMOUNT%x)'
-    expired: '%NAME%(%UUID%) Item expired. %ITEM%(%AMOUNT%x)'
-    removed: '%NAME%(%UUID%) Item expired and removed. %ITEM%(%AMOUNT%x)'
-    givenBack: '%NAME%(%UUID%) Item given Back to Player. %ITEM%(%AMOUNT%x)'
-    bidOn: '%NAME%(%UUID%) Player bid on Item. %ITEM%(%AMOUNT%x)'
-    aborted: '%NAME%(%UUID%) Player canceled inserted Item. %ITEM%(%AMOUNT%x)'
+    addItem: '%NAME% Added Item to Auctionhouse. %ITEM%(%AMOUNT%x)'
+    expired: '%NAME% Item expired. %ITEM%(%AMOUNT%x)'
+    removed: '%NAME% Item expired and removed. %ITEM%(%AMOUNT%x)'
+    givenBack: '%NAME% Item given Back to Player. %ITEM%(%AMOUNT%x)'
+    bidOn: '%NAME% Player bid on Item. %ITEM%(%AMOUNT%x)'
+    aborted: '%NAME% Player canceled inserted Item. %ITEM%(%AMOUNT%x)'
   chat-praefix: '&6[&c&lAH&r&6]&r'
   shop-gui-name: 'Adrundaal Auktionshaus'
   parameters-not-matching: '&8The amount of Parameters is not matching to the command.'

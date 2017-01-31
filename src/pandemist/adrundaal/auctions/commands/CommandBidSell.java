@@ -16,6 +16,7 @@ import pandemist.adrundaal.auctions.config.LogConfig;
 import pandemist.adrundaal.auctions.model.BidItem;
 import pandemist.adrundaal.auctions.model.SellItem;
 import pandemist.adrundaal.auctions.utils.ChatUtils;
+import pandemist.adrundaal.auctions.utils.ItemUtils;
 import pandemist.adrundaal.auctions.utils.TimeUtils;
 import pandemist.adrundaal.auctions.utils.Utils;
 
@@ -122,13 +123,17 @@ public class CommandBidSell {
 		}
 //Test if item is on Name BlackList
 		for(String id : Config.getStringList("config.name_blacklist")) {
+			System.out.println("id "+ItemUtils.color(id));
 			if(id.equals("")) {
 				continue;
 			}
+			System.out.println("Display "+ItemUtils.color(is.getItemMeta().getDisplayName()));
 			if(is.getItemMeta().getDisplayName()==null) {
 				break;
 			}
-			if(is.getItemMeta().getDisplayName().equals(id)) {
+			System.out.println(ItemUtils.color(is.getItemMeta().getDisplayName()).equals(ItemUtils.color(id)));
+			if(ItemUtils.color(is.getItemMeta().getDisplayName()).equals(ItemUtils.color(id))) {
+				System.out.println("MUH!");
 				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "ítem-blacklisted");
 				return;
 			}
@@ -213,30 +218,32 @@ public class CommandBidSell {
 		ma.add(Material.WOOD_SWORD);
 		ma.add(Material.STONE_SWORD);
 		ma.add(Material.IRON_SWORD);
+		ma.add(Material.GOLD_SWORD);
 		ma.add(Material.DIAMOND_SWORD);
-		ma.add(Material.WOOD_AXE);
-		ma.add(Material.STONE_AXE);
-		ma.add(Material.IRON_AXE);
-		ma.add(Material.DIAMOND_AXE);
 		ma.add(Material.WOOD_PICKAXE);
 		ma.add(Material.STONE_PICKAXE);
 		ma.add(Material.IRON_PICKAXE);
+		ma.add(Material.GOLD_PICKAXE);
 		ma.add(Material.DIAMOND_PICKAXE);
 		ma.add(Material.WOOD_AXE);
 		ma.add(Material.STONE_AXE);
 		ma.add(Material.IRON_AXE);
+		ma.add(Material.GOLD_AXE);
 		ma.add(Material.DIAMOND_AXE);
 		ma.add(Material.WOOD_SPADE);
 		ma.add(Material.STONE_SPADE);
 		ma.add(Material.IRON_SPADE);
+		ma.add(Material.GOLD_SPADE);
 		ma.add(Material.DIAMOND_SPADE);
 		ma.add(Material.WOOD_HOE);
 		ma.add(Material.STONE_HOE);
 		ma.add(Material.IRON_HOE);
+		ma.add(Material.GOLD_HOE);
 		ma.add(Material.DIAMOND_HOE);
 		ma.add(Material.FLINT_AND_STEEL);
 		ma.add(Material.ANVIL);
 		ma.add(Material.FISHING_ROD);
+		ma.add(Material.SHIELD);
 		return ma;
 	}
 }

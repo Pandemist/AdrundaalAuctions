@@ -28,9 +28,9 @@ public class CollectableItem extends AuctionItem {
 		super.is=ItemConfig.config.getItemStack("collect."+key+".item");
 		super.attributes=ItemConfig.notNull(ItemConfig.config.getString("collect."+key+".attributes"));
 		makeItem();
-		super.individualID=ItemConfig.notNull(ItemConfig.config.getString("sell."+key+".indivID"));
+		super.individualID=ItemConfig.notNull(ItemConfig.config.getString("collect."+key+".indivID"));
 		this.ownerName=ItemConfig.notNull(ItemConfig.config.getString("collect."+key+".ownerName"));
-		this.ownerUUID=UUID.fromString(ItemConfig.notNull(ItemConfig.config.getString("collect."+key+".ownerUUID")));
+		this.ownerUUID=UUID.fromString(ItemConfig.config.getString("collect."+key+".ownerUUID"));
 	}
 
 	public CollectableItem() {

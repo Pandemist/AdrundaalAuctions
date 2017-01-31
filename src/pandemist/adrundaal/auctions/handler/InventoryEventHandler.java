@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -34,7 +35,16 @@ public class InventoryEventHandler implements Listener {
 		if(event.getSlotType().equals(InventoryType.SlotType.OUTSIDE)) {
 			return;
 		}
-		if(!event.getClickedInventory().getTitle().contains(Config.getLang("shop-gui-name"))) {
+		System.out.println(event.getInventory().getTitle());
+		if(!event.getInventory().getTitle().contains(Config.getLang("shop-gui-name"))) {
+			return;
+		}
+	/*	if(!event.getClickedInventory().getTitle().contains(Config.getLang("shop-gui-name"))) {
+			return;
+		}*/
+		event.setCancelled(true);
+		if(event.getClick().equals(ClickType.SHIFT_LEFT)||event.getClick().equals(ClickType.SHIFT_RIGHT)) {
+			event.setCancelled(true);
 			return;
 		}
 		ItemStack clickedItem=event.getCurrentItem();
@@ -48,7 +58,6 @@ public class InventoryEventHandler implements Listener {
 				||(clickedItem.equals(Config.getOptionItem("blocked-item")))) {
 			return;
 		}
-		event.setCancelled(true);
 		System.out.println("~~~~"+clickedItem.getType());
 	//	System.out.println("This happend");
 		if(clickedItem.equals(Config.getOptionItem("menu.collect"))) {

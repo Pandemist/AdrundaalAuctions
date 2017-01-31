@@ -75,8 +75,16 @@ public class SellItem extends AuctionItem {
 		return this.sellerName;
 	}
 
+	public void setSellerName(String pSellerName) {
+		this.sellerName = pSellerName;
+	}
+
 	public UUID getSellerUUID() {
 		return this.sellerUUID;
+	}
+
+	public void setSellerUUID(UUID puuid) {
+		this.sellerUUID = puuid;
 	}
 	/*
 	*   Converts Item to Config

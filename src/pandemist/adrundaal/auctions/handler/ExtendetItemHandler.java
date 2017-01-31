@@ -412,12 +412,15 @@ public class ExtendetItemHandler {
 			return;
 		}
 		EcoUtils.ecoTakeMoney(player, sellingItem.getPrice());
+		sellingItem.setSellerName(player.getDisplayName());
+		sellingItem.setSellerUUID(player.getUniqueId());
 
 		if(!Utils.isInvFull(player)) {
 			player.getInventory().addItem(sellingItem.getItem());
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "item-has-been-given");
 		}else{
-			sellingItem.toCollectble();
+			CollectableItem c=sellingItem.toCollectble();
+			collectItemList.add(c);
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "inventory-full");
 		}
 		ItemUtils.removeFromSellList(sellingItem);
@@ -464,7 +467,8 @@ public class ExtendetItemHandler {
 				player.getInventory().addItem(biddingItem.getItem());
 				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "item-has-been-given");
 			}else{
-				biddingItem.toCollectble();
+				CollectableItem c=biddingItem.toCollectble();
+				collectItemList.add(c);
 				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "inventory-full");
 			}
 			bidItemList.remove(biddingItem);
@@ -513,6 +517,8 @@ public class ExtendetItemHandler {
 		//	bidItemList.remove(bItem);
 		}
 		ItemConfig.refreshLists();
+		Shop.removeFromSelectedItemMap(player);
+		Shop.removeFromInvMap(player);
 		openShopByType(player);
 	}
 	/*
@@ -524,6 +530,7 @@ public class ExtendetItemHandler {
 			return;
 		}
 		if(Shop.isPlayerInSelectedItemMap(player)) {
+			System.out.println("TETST");
 			return;
 		}
 		Shop.addToSelectedItemMap(player, Shop.getInvByName(player).get(slot));
@@ -602,24 +609,16 @@ public class ExtendetItemHandler {
 	*   Opens the Confirm Dialog for My inserted Overview
 	 */
 	public static void itemClickHandlingCollect(Player player, int slot) {
-		if(!Utils.isInvFull(player)) {
+		if(Utils.isInvFull(player)) {
 			ChatUtils.sendMessageToPlayer(player.getUniqueId(), "inventory-full");
 			return;
 		}
 		String itemID=Shop.getInvByName(player).get(slot);
-		ItemStack itemToReturn;
-		if(itemID.charAt(0)=='b') {
-			BidItem bItem=ItemUtils.getBidItemByUID(itemID);
-			itemToReturn=bItem.getItem();
-			LogConfig.addToLogFile("givenBack", bItem.getSellerName(), bItem.getItem());
-			bidItemList.remove(bItem);
-		}else{
-			SellItem sItem=ItemUtils.getSellItemByUID(itemID);
-			itemToReturn=sItem.getItem();
-			LogConfig.addToLogFile("givenBack", sItem.getSellerName(), sItem.getItem());
-			sellItemList.remove(sItem);
-		}
+		CollectableItem cItem =ItemUtils.getCollectItemByUID(itemID);
+		ItemStack itemToReturn= cItem.getItem();
+		LogConfig.addToLogFile("givenBack", cItem.getOwnerName(), cItem.getItem());
 		player.getInventory().addItem(itemToReturn);
+		ItemUtils.removeFromCollectList(cItem);
 		ItemConfig.refreshLists();
 		openShopByType(player);
 	}

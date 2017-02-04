@@ -74,8 +74,8 @@ public class CollectableItem extends AuctionItem {
 		ItemConfig.config.set("collect."+key+".item", this.is);
 		ItemConfig.config.set("collect."+key+".attributes", this.attributes);
 		ItemConfig.config.set("collect."+key+".indivID", this.individualID);
-		ItemConfig.config.set("collect."+key+".sellerName", this.ownerName);
-		ItemConfig.config.set("collect."+key+".sellerUUID", this.ownerUUID.toString());
+		ItemConfig.config.set("collect."+key+".ownerName", this.ownerName);
+		ItemConfig.config.set("collect."+key+".ownerUUID", this.ownerUUID.toString());
 		ItemConfig.saveConfig();
 	}
 }

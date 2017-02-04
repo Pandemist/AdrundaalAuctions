@@ -97,33 +97,47 @@ public class Utils {
 	*   Tests the Items in the 3 Lists (Bid, Sell, Collect) if Time is expired and evaluate them.
 	 */
 	public static void updateListActuallity() {
-		Calendar cal=Calendar.getInstance();
-		for(BidItem b : bidItemList) {
-			if(cal.after(b.getTimeExpire())) {
-				collectItemList.add(b.toCollectble());
-				if(b.getTopBidderName()!="") {
-					EcoUtils.ecoGiveMoney(b.getSellerName(), b.getSellerUUID(), b.getOffer());
-					ChatUtils.sendMessageToPlayer(b.getTopBidderUUID(), "auction-end-bidder", b.getItem());
-					ChatUtils.sendMessageToPlayer(b.getSellerUUID(), "auction-end-seller", b.getItem());
+		Calendar cal = Calendar.getInstance();
+		Calendar exp = Calendar.getInstance();
+	//	for(BidItem b : bidItemList) {
+		for(int i=0;i<bidItemList.size();i++) {
+			long h = bidItemList.get(i).getTimeExpire();
+			exp.setTimeInMillis(h);
+			if(cal.after(exp)) {
+				collectItemList.add(bidItemList.get(i).toCollectble());
+				if(bidItemList.get(i).getTopBidderName()!="") {
+					EcoUtils.ecoGiveMoney(bidItemList.get(i).getSellerName(), bidItemList.get(i).getSellerUUID(), bidItemList.get(i).getOffer());
+					ChatUtils.sendMessageToPlayer(bidItemList.get(i).getTopBidderUUID(), "auction-end-bidder", bidItemList.get(i).getItem());
+					ChatUtils.sendMessageToPlayer(bidItemList.get(i).getSellerUUID(), "auction-end-seller", bidItemList.get(i).getItem());
 				}else{
-					ChatUtils.sendMessageToPlayer(b.getSellerUUID(), "item-time-expired", b.getItem());
+					ChatUtils.sendMessageToPlayer(bidItemList.get(i).getSellerUUID(), "item-time-expired", bidItemList.get(i).getItem());
 				}
-				LogConfig.addToLogFile("expired", b.getSellerName(), b.getItem());
-				bidItemList.remove(b);
+				LogConfig.addToLogFile("expired", bidItemList.get(i).getSellerName(), bidItemList.get(i).getItem());
+				bidItemList.remove(bidItemList.get(i));
 			}
 		}
-		for(SellItem s : sellItemList) {
-			if(cal.after(s.getTimeExpire())) {
-				collectItemList.add(s.toCollectble());
-				ChatUtils.sendMessageToPlayer(s.getSellerUUID(), "item-time-expired", s.getItem());
-				sellItemList.remove(s);
+	//	for(SellItem s : sellItemList) {
+		for(int i=0;i<sellItemList.size();i++) {
+			long h = sellItemList.get(i).getTimeExpire();
+			exp.setTimeInMillis(h);
+	//		System.out.println(cal);
+	//		System.out.println(exp);
+	//		System.out.println(cal.after(exp));
+			if(cal.after(exp)) {
+	//			System.out.println("Das geht");
+				collectItemList.add(sellItemList.get(i).toCollectble());
+				ChatUtils.sendMessageToPlayer(sellItemList.get(i).getSellerUUID(), "item-time-expired", sellItemList.get(i).getItem());
+				sellItemList.remove(sellItemList.get(i));
 			}
 		}
-		for(CollectableItem c : collectItemList) {
-			if(cal.after(c.getTimeExpire())) {
-				ChatUtils.sendMessageToPlayer(c.getOwnerUUID(), "item-time-expired-clear", c.getItem());
-				LogConfig.addToLogFile("removed", c.getOwnerName(), c.getItem());
-				collectItemList.remove(c);
+	//	for(CollectableItem c : collectItemList) {
+		for(int i=0;i<collectItemList.size();i++) {
+			long h = collectItemList.get(i).getTimeExpire();
+			exp.setTimeInMillis(h);
+			if(cal.after(exp)) {
+				ChatUtils.sendMessageToPlayer(collectItemList.get(i).getOwnerUUID(), "item-time-expired-clear", collectItemList.get(i).getItem());
+				LogConfig.addToLogFile("removed", collectItemList.get(i).getOwnerName(), collectItemList.get(i).getItem());
+				collectItemList.remove(collectItemList.get(i));
 			}
 		}
 	}

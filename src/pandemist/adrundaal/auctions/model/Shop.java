@@ -225,7 +225,8 @@ public class Shop {
         inv.setItem(45, Config.getOptionItem("menu.myOverview"));
         inv.setItem(47, Config.getOptionItem("menu.sellList"));
         inv.setItem(48, Config.getOptionItem("menu.pageBack"));
-        inv.setItem(49, Config.getOptionItem("menu.refresh"));
+        inv.setItem(49, Config.getOptionItem("menu.collectAll"));
+   //     inv.setItem(49, Config.getOptionItem("menu.refresh"));
         inv.setItem(50, Config.getOptionItem("menu.pageNext"));
         inv.setItem(51, Config.getOptionItem("menu.bidList"));
 

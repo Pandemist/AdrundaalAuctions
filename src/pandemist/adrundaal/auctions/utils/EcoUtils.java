@@ -154,7 +154,9 @@ public class EcoUtils {
 	 */
 	private static void addItemMoneyToAuctionItem(String name, UUID uuid, int amount) {
 		String indivID="c-"+uuid.toString()+"-"+TimeUtils.getNowTime();
-		ItemStack is=new ItemStack(ItemUtils.getMaterialbyId(Config.getOptionValue("money-item.type")), amount);
+	//	ItemStack is=new ItemStack(ItemUtils.getMaterialbyId(Config.getOptionValue("items.money-item.type")), amount);
+		ItemStack is=Config.getOptionItem("money-item");
+		is.setAmount(amount);
 		CollectableItem ai=new CollectableItem(TimeUtils.convertToMill(Config.getOptionValue("config.full-expire-time")), is, indivID, name, uuid);
 //add Item to auctionList and update items.data.
 		AdrundaalAuctions.collectItemList.add(ai);

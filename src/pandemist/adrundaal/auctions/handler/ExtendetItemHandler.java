@@ -288,17 +288,22 @@ public class ExtendetItemHandler {
 	 */
 	public static void collectAllItems(Player player) {
 		ArrayList<CollectableItem> matchingItems=Shop.getMatchingCollectableByPlayerName(player);
+		System.out.println("KLICKED");
+		System.out.println(matchingItems.size());
 		for(CollectableItem cItem : matchingItems) {
 			LogConfig.addToLogFile("givenBack", cItem.getOwnerName(), cItem.getItem());
-			if(!Utils.isInvFull(player)) {
+			if(Utils.isInvFull(player)) {
 				ChatUtils.sendMessageToPlayer(player.getUniqueId(), "inventory-full");
 				break;
 			}else{
+				System.out.println("ITEM");
 				player.getInventory().addItem(cItem.getItem());
-				collectItemList.remove(cItem);
+			//	collectItemList.remove(cItem);
+				ItemUtils.removeFromCollectList(cItem);
 			}
 		}
 		ItemConfig.refreshLists();
+		openShopByType(player);
 	}
 	/*
 	*   Open the Shop for the inserted Player, by the value in the ShopType Map
@@ -412,6 +417,7 @@ public class ExtendetItemHandler {
 			return;
 		}
 		EcoUtils.ecoTakeMoney(player, sellingItem.getPrice());
+		EcoUtils.ecoGiveMoney(sellingItem.getSellerName(), sellingItem.getSellerUUID(), sellingItem.getPrice());
 		sellingItem.setSellerName(player.getDisplayName());
 		sellingItem.setSellerUUID(player.getUniqueId());
 
@@ -619,6 +625,7 @@ public class ExtendetItemHandler {
 		LogConfig.addToLogFile("givenBack", cItem.getOwnerName(), cItem.getItem());
 		player.getInventory().addItem(itemToReturn);
 		ItemUtils.removeFromCollectList(cItem);
+		Shop.removeFromSelectedItemMap(player);
 		ItemConfig.refreshLists();
 		openShopByType(player);
 	}

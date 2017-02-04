@@ -32,17 +32,21 @@ public class InventoryEventHandler implements Listener {
 	 */
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onClickListener(InventoryClickEvent event) {
+//		System.out.println(event.getInventory().getTitle());
+		if(!event.getInventory().getTitle().contains(Config.getLang("shop-gui-name"))) {
+			return;
+		}
+		event.setCancelled(true);
 		if(event.getSlotType().equals(InventoryType.SlotType.OUTSIDE)) {
 			return;
 		}
-		System.out.println(event.getInventory().getTitle());
-		if(!event.getInventory().getTitle().contains(Config.getLang("shop-gui-name"))) {
+//		System.out.println(event.getClickedInventory().getTitle());
+		if(!event.getClickedInventory().getTitle().contains(Config.getLang("shop-gui-name"))) {
 			return;
 		}
 	/*	if(!event.getClickedInventory().getTitle().contains(Config.getLang("shop-gui-name"))) {
 			return;
 		}*/
-		event.setCancelled(true);
 		if(event.getClick().equals(ClickType.SHIFT_LEFT)||event.getClick().equals(ClickType.SHIFT_RIGHT)) {
 			event.setCancelled(true);
 			return;

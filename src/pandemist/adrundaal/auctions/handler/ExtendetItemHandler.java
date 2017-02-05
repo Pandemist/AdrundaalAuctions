@@ -626,6 +626,7 @@ public class ExtendetItemHandler {
 		player.getInventory().addItem(itemToReturn);
 		ItemUtils.removeFromCollectList(cItem);
 		Shop.removeFromSelectedItemMap(player);
+		Utils.updateListActuallity();
 		ItemConfig.refreshLists();
 		openShopByType(player);
 	}

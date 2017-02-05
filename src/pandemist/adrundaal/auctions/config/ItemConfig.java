@@ -85,7 +85,7 @@ public class ItemConfig {
 
 	//Clears the File and fill it with all the actual stats. Works like a backup File
 	public static void refreshLists() {
-		Utils.updateListActuallity();
+		//Utils.updateListActuallity();
 		clearSection("sell");
 		for(int i=0; i<AdrundaalAuctions.sellItemList.size(); i++) {
 			AdrundaalAuctions.sellItemList.get(i).toConfig(i+"");

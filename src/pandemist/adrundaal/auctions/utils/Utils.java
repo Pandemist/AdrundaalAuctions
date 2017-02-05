@@ -113,21 +113,24 @@ public class Utils {
 					ChatUtils.sendMessageToPlayer(bidItemList.get(i).getSellerUUID(), "item-time-expired", bidItemList.get(i).getItem());
 				}
 				LogConfig.addToLogFile("expired", bidItemList.get(i).getSellerName(), bidItemList.get(i).getItem());
-				bidItemList.remove(bidItemList.get(i));
+				ItemUtils.removeFromBidList(bidItemList.get(i));
 			}
 		}
 	//	for(SellItem s : sellItemList) {
+		System.out.println(sellItemList.size());
 		for(int i=0;i<sellItemList.size();i++) {
+			System.out.println(i);
 			long h = sellItemList.get(i).getTimeExpire();
 			exp.setTimeInMillis(h);
 	//		System.out.println(cal);
 	//		System.out.println(exp);
 	//		System.out.println(cal.after(exp));
+			System.out.println("---"+sellItemList.get(i).getItem().getType());
 			if(cal.after(exp)) {
-	//			System.out.println("Das geht");
+				System.out.println("Das geht");
 				collectItemList.add(sellItemList.get(i).toCollectble());
 				ChatUtils.sendMessageToPlayer(sellItemList.get(i).getSellerUUID(), "item-time-expired", sellItemList.get(i).getItem());
-				sellItemList.remove(sellItemList.get(i));
+				ItemUtils.removeFromSellList(sellItemList.get(i));
 			}
 		}
 	//	for(CollectableItem c : collectItemList) {
@@ -137,7 +140,7 @@ public class Utils {
 			if(cal.after(exp)) {
 				ChatUtils.sendMessageToPlayer(collectItemList.get(i).getOwnerUUID(), "item-time-expired-clear", collectItemList.get(i).getItem());
 				LogConfig.addToLogFile("removed", collectItemList.get(i).getOwnerName(), collectItemList.get(i).getItem());
-				collectItemList.remove(collectItemList.get(i));
+				ItemUtils.removeFromCollectList(collectItemList.get(i));
 			}
 		}
 	}

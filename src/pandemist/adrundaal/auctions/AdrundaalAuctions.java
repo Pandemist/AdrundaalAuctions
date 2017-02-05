@@ -17,6 +17,7 @@ import pandemist.adrundaal.auctions.model.BidItem;
 import pandemist.adrundaal.auctions.model.CollectableItem;
 import pandemist.adrundaal.auctions.model.SellItem;
 import pandemist.adrundaal.auctions.utils.EcoUtils;
+import pandemist.adrundaal.auctions.utils.Utils;
 
 public class AdrundaalAuctions extends JavaPlugin {
 	public static boolean itemMoneyUse;
@@ -50,14 +51,15 @@ public class AdrundaalAuctions extends JavaPlugin {
 		}
 	}
 	public void onDisable() {
-		super.onDisable();
-		Config.destroy();
 		if(sellItemList!=null) {
+			Utils.updateListActuallity();
 			ItemConfig.refreshLists();
 			sellItemList.clear();
 			bidItemList.clear();
 			collectItemList.clear();
 		}
+		super.onDisable();
+		Config.destroy();
 		ItemConfig.destroy();
 		LogConfig.destroy();
 	}

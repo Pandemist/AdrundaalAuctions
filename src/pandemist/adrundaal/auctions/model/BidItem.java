@@ -127,6 +127,7 @@ public class BidItem extends AuctionItem {
 	*   Converts a Item to a Collect Item
 	 */
 	public CollectableItem toCollectble() {
+	//	System.out.println(Config.getOptionValue("config.full-expire-time"));
 		long ttime=TimeUtils.convertToMill(Config.getOptionValue("config.full-expire-time"));
 		String tname=this.getSellerName();
 		UUID tuuid=this.getSellerUUID();

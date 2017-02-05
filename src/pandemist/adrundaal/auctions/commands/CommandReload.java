@@ -9,6 +9,7 @@ import pandemist.adrundaal.auctions.AdrundaalAuctions;
 import pandemist.adrundaal.auctions.config.Config;
 import pandemist.adrundaal.auctions.config.ItemConfig;
 import pandemist.adrundaal.auctions.utils.ChatUtils;
+import pandemist.adrundaal.auctions.utils.Utils;
 
 public class CommandReload {
 	/*
@@ -20,6 +21,7 @@ public class CommandReload {
 		System.out.println("reload");
 //Destroy all Settings
 		Config.destroy();
+		Utils.updateListActuallity();
 		ItemConfig.refreshLists();
 		AdrundaalAuctions.sellItemList.clear();
 		AdrundaalAuctions.bidItemList.clear();

@@ -77,6 +77,7 @@ public class InventoryEventHandler implements Listener {
 		}else if(clickedItem.equals(Config.getOptionItem("menu.pageNext"))) {
 			ExtendetItemHandler.goPageNext(eventTriggerer);
 		}else if(clickedItem.equals(Config.getOptionItem("menu.refresh"))) {
+			Utils.updateListActuallity();
 			ItemConfig.refreshLists();
 			ExtendetItemHandler.openShopByType(eventTriggerer);
 		}else if(clickedItem.equals(Config.getOptionItem("menu.bidList"))) {

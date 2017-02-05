@@ -31,8 +31,10 @@ public class ItemUtils {
 	public static ItemStack addMetaToItem(ItemStack i, String name, List<String> lore, Map<Enchantment, Integer> enchantments, String attr) {
 		ArrayList<String> l=new ArrayList<String>();
 		ItemMeta im=i.getItemMeta();
-		if(notNull(name)&&name!="") {
-			im.setDisplayName(color(name));
+		if(name!=null) {
+			if(notNull(name)&&name!="") {
+				im.setDisplayName(color(name));
+			}
 		}
 		if(!lore.isEmpty()) {
 			for(String L : lore){

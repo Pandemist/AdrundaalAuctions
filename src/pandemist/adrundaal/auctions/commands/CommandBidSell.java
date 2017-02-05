@@ -182,6 +182,7 @@ public class CommandBidSell {
 			LogConfig.addToLogFile("addItem", player.getDisplayName(), si.getItem());
 		}
 		System.out.println(indivID);
+		Utils.updateListActuallity();
 		ItemConfig.refreshLists();
 
 //Take the Items, that are now insertet in the Auctionhouse

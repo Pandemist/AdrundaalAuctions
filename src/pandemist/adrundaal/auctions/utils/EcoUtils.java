@@ -160,6 +160,7 @@ public class EcoUtils {
 		CollectableItem ai=new CollectableItem(TimeUtils.convertToMill(Config.getOptionValue("config.full-expire-time")), is, indivID, name, uuid);
 //add Item to auctionList and update items.data.
 		AdrundaalAuctions.collectItemList.add(ai);
+		//Utils.updateListActuallity();
 		ItemConfig.refreshLists();
 	}
 	/*

@@ -1,0 +1,27 @@
+name: 'AdrundaalAuctions'
+version: '0.1'
+main: 'pandemist.adrundaal.auctions.AdrundaalAuctions'
+desc: 'Auctions plugin'
+authors: ['Pandemist']
+depend: ['Vault']
+
+commands:
+  aa:
+    description: Opens the Adrundaal Auctions GUI.
+    aliases: [adrundaalauction, adrundaalauctions,ah]
+permissions:
+  adrundaalAuctions.*:
+    description:
+    children:
+      adrundaalAuctions.bid: true
+      adrundaalAuctions.sell: true
+      adrundaalAuctions.gui: true
+  adrundaalAuctions.bid:
+    description: Player can insert a bid Item
+    default: true
+  adrundaalAuctions.sell:
+    description: Player can insert a sell Item
+    default: true
+  adrundaalAuctions.gui:
+    description: Player has access to the gui
+    default: true

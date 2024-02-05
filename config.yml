@@ -1,0 +1,277 @@
+config:
+  item-money-use: true
+  minimum-bid-price: 0
+  max-beginning-bid-price: 1024
+  minimum-sell-price: 0
+  max-beginning-sell-price: 1024
+  max-biddableItems: 40
+  max-sellableItems: 40
+  blacklist:
+  - '7'
+  - '8'
+  - '9'
+  - '10'
+  - '11'
+  - '137'
+  - '166'
+  - '217'
+  - '255'
+  - '383'
+  - '120'
+  name_blacklist:
+  - 'Forbidden Name'
+  - 'Class Token'
+  - '&8ColoredItemName'
+  lore_blacklist:
+  - '&3Forbidden Lore'
+  - '&8Soulbound Item'
+  - '&6Secret Lore'
+  allow-damaged-items: true
+  bid-time: 7d
+  sell-time: 7d
+  full-expire-time: 10d
+  #Select if the Lore of an inserted Item schould showed, when the item is Displayed in the Plugin
+  has-normal-lore-in-Views: true
+  default-shop-view: 'FILTER'
+  default-shop-filter: 'Filter.None'
+messages:
+  log:
+    addItem: '%NAME% Added Item to Auctionhouse. %ITEM%(%AMOUNT%x)'
+    expired: '%NAME% Item expired. %ITEM%(%AMOUNT%x)'
+    removed: '%NAME% Item expired and removed. %ITEM%(%AMOUNT%x)'
+    givenBack: '%NAME% Item given Back to Player. %ITEM%(%AMOUNT%x)'
+    bidOn: '%NAME% Player bid on Item. %ITEM%(%AMOUNT%x)'
+    aborted: '%NAME% Player canceled inserted Item. %ITEM%(%AMOUNT%x)'
+  chat-praefix: '&6[&c&lAH&r&6]&r'
+  shop-gui-name: 'Adrundaal Auktionshaus'
+  parameters-not-matching: '&8The amount of Parameters is not matching to the command.'
+  sender-is-no-player: '&8This command can only performed by a Player.'
+  argument-is-not-a-number: '&8Minimal one of the Values is not a Number.'
+  not-enough-item-in-hand: '&8You have not enough of this Item in the Hand.'
+  no-item-in-hand: '&8You have no Item in your Hand.'
+  bid-price-to-low: '&8Your bid price is to low.'
+  bid-price-to-high: '&8Your bid price is to high.'
+  sell-price-to-low: '&8Your sell price is to low.'
+  sell-price-to-high: '&8Your sell price is to high.'
+  bid-max-item-reached: '&8You have reached your maximum of bidding items at the same time.'
+  sell-max-item-reached: '&8You have reached your maximum of selling items at the same time.'
+  ítem-blacklisted: '&8This Item is not allowed in the Auctionhouse.'
+  item-damaged: '&8Damaged Items are not allowed in the Auctionhouse.'
+  no-permission: '&8You do not have the Permissions, to perform this command.'
+  successfully-inserted: '&8Your %ITEM% (%AMOUNT%x) has been added to the Auctionhouse.'
+  reload-completed: '&aReload completed.'
+  auction-end-bidder: '&8You won an Auction.'
+  auction-end-seller: '&8One of your Items has been auctioned.'
+  item-time-expired: '&8The Time for one of you Items has been expired.'
+  item-time-expired-clear: '&8The Time for one of your Items has been expired. It
+    has been removed.'
+  item-not-found: '&8The Item can not be found any more.'
+  not-enought-money: '&8You have not enough money!'
+  item-has-been-given: '&8The Item has been added to your Inventory!'
+  inventory-full: '&8Your inventory is full!'
+  offer-to-low: '&8Your current offer is to low!'
+items:
+  bid-item-lore:
+  - '-----------------------'
+  - 'Seller: %SELLER%'
+  - 'TopBidder: %TOP_BIDDER%'
+  - 'Bid: %BID%'
+  - 'Ends in: %LEFT%'
+  - '-----------------------'
+  bidding-item-lore:
+  - '-----------------------'
+  - 'Actual Bid: %NEW_BID%'
+  - 'Old Bid: %OLD_BID%'
+  - '-----------------------'
+  sell-item-lore:
+  - '-----------------------'
+  - 'Seller: %SELLER%'
+  - 'Price: %PRICE%'
+  - 'Ends in: %LEFT%'
+  - '-----------------------'
+  selling-item-lore:
+  - '-----------------------'
+  - 'Price: %PRICE%'
+  - '-----------------------'
+  collectable-Item-Lore:
+  - '-----------------------'
+  - 'Will be removed in:'
+  - '%LEFT%'
+  - '-----------------------'
+  myOverviewConfirm-item-lore:
+  - '-----------------------'
+  - 'Are you sure, you want'
+  - 'to remove this Item?'
+  - '-----------------------'
+  money-item:
+    type: '371'
+    name: 'Draken'
+    lore:
+    - 'www.adrundaal.de'
+    - 'Here is more than'
+    - 'on line possible.'
+  blocked-item:
+    type: '166'
+    name: 'You cant click this now'
+    lore:
+    - '&7Maybe this Item was inserted'
+    - '&7by yourself, you are the'
+    - '&7top Bidder or someone else'
+    - '&7is watching this Item now.'
+  menu:
+    collect:
+      type: '54'
+      name: 'AH-Chest'
+      lore:
+      - 'Open a List of Items'
+      - 'that are ready to collect'
+    myOverview:
+      type: '130'
+      name: 'My Inserted'
+      lore:
+      - 'Open a List of Items,'
+      - 'that you has inserted'
+    pageBack:
+      type: '280'
+      name: 'Last Page'
+      lore:
+      - 'Go one Page back'
+    pageNext:
+      type: '280'
+      name: 'Next Page'
+      lore:
+      - 'Go one Page forward'
+    refresh:
+      type: '357'
+      name: 'Refresh'
+      lore:
+      - 'Refresh all Lists'
+    bidList:
+      type: '368'
+      name: 'Open bidding Menu'
+      lore:
+      - 'Open the List of actual'
+      - 'bidding Items'
+    sellList:
+      type: '381'
+      name: 'Open selling Menu'
+      lore:
+      - 'Open the List of actual'
+      - 'selling Items.'
+    collectAll:
+      type: '370'
+      name: 'Collect All'
+      lore:
+      - 'Collect all Items in'
+      - 'here. If Inventory has'
+      - 'enough free space.'
+    back:
+      type: '394'
+      name: 'Back'
+      lore:
+      - 'Go one Page back.'
+    filter:
+      type: '358'
+      name: 'Select Filters'
+      lore:
+      - 'Click here to select'
+      - 'Itemtypes to Filter.'
+  filter:
+    armor:
+      type: '310'
+      name: 'Armor Filter'
+      lore:
+      - 'Select Itemfilter:'
+      - 'Armor'
+    food:
+      type: '260'
+      name: 'Food Filter'
+      lore:
+      - 'Select Itemfilter:'
+      - 'Food'
+    weapons:
+      type: '267'
+      name: 'Weapons Filter'
+      lore:
+      - 'Select Itemfilter:'
+      - 'Weapons'
+    potions:
+      type: '117'
+      name: 'Potion Filter'
+      lore:
+      - 'Select Itemfilter:'
+      - 'Potions'
+    tools:
+      type: '257'
+      name: 'Tools Filter'
+      lore:
+      - 'Select Itemfilter:'
+      - 'Tools'
+    blocks:
+      type: '45'
+      name: 'Blocks Filter'
+      lore:
+      - 'Select Itemfilter:'
+      - 'Blocks'
+    others:
+      type: '341'
+      name: 'Others Filter'
+      lore:
+      - 'Select Itemfilter:'
+      - 'Others'
+    none:
+      type: '166'
+      name: 'Select no Filter'
+      lore:
+      - 'Select no Filter'
+  dialog:
+    confirm:
+      type: '35:13'
+      name: 'Confirm'
+      lore:
+      - 'Confirm this action'
+    abort:
+      type: '35:14'
+      name: 'Abort'
+      lore:
+      - 'Abort this action'
+    bid+1:
+      type: '35:13'
+      name: '+1'
+      lore:
+      - 'Add 1 to your offer'
+    bid+10:
+      type: '35:13'
+      name: '+10'
+      lore:
+      - 'Add 10 to your offer'
+    bid+32:
+      type: '35:13'
+      name: '+32'
+      lore:
+      - 'Add 32 to your offer'
+    bid+64:
+      type: '35:13'
+      name: '+64'
+      lore:
+      - 'Add 64 to your offer'
+    bid-1:
+      type: '35:14'
+      name: '-1'
+      lore:
+      - 'Remove 1 from your offer'
+    bid-10:
+      type: '35:14'
+      name: '-10'
+      lore:
+      - 'Remove 10 from your offer'
+    bid-32:
+      type: '35:14'
+      name: '-32'
+      lore:
+      - 'Remove 32 from your offer'
+    bid-64:
+      type: '35:14'
+      name: '-64'
+      lore:
+      - 'Remove 64 from your offer'
